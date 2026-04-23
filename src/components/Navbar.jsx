@@ -73,7 +73,7 @@ const Navbar = () => {
             </div>
           ) : (
             <Link to="/booking" className="hidden sm:block bg-[color:var(--teal)] text-white px-4 md:px-6 py-2 md:py-2.5 rounded-xl font-bold hover:bg-[color:var(--dk)] transition-all shadow-lg shadow-black/10 active:scale-95 text-sm md:text-base">
-              Book Now
+              Book An Appointment
             </Link>
           )}
 
