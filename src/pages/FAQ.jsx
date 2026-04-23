@@ -15,8 +15,9 @@ const FAQPage = () => {
   }, []);
 
   const fetchFAQs = async () => {
+    const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:5000' : '';
     try {
-      const response = await axios.get('http://localhost:5000/api/faqs');
+      const response = await axios.get(`${API_BASE}/api/faqs`);
       setFaqs(response.data.faqs);
       setLoading(false);
     } catch (error) {

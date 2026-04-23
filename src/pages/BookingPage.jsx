@@ -23,8 +23,9 @@ const BookingPage = () => {
   }, []);
 
   const fetchAvailableSlots = async () => {
+    const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:5000' : '';
     try {
-      const response = await axios.get('/api/available-slots');
+      const response = await axios.get(`${API_BASE}/api/available-slots`);
       setAvailableSlots(response.data.slots);
     } catch (error) {
       console.log('Using default slots');
@@ -44,8 +45,9 @@ const BookingPage = () => {
     e.preventDefault();
     setLoading(true);
 
+    const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:5000' : '';
     try {
-      const localResponse = await axios.post('/api/appointments', formData);
+      const localResponse = await axios.post(`${API_BASE}/api/appointments`, formData);
       setEmailStatus(localResponse?.data?.emailStatus || null);
 
       if (localResponse.data.success) {

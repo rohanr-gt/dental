@@ -29,9 +29,10 @@ const AssessmentPage = () => {
 
   const submitAssessment = async () => {
     setLoading(true);
+    const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:5000' : '';
     try {
       // 1. Get recommendation from local API
-      const response = await axios.post('http://localhost:5000/api/recommend-treatment', { answers });
+      const response = await axios.post(`${API_BASE}/api/recommend-treatment`, { answers });
       setRecommendation(response.data);
 
       // 2. Send notification to Web3Forms

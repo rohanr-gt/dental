@@ -45,8 +45,9 @@ const Chatbot = () => {
     setMessages((prev) => [...prev, { type: 'user', text: msg }]);
     setLoading(true);
 
+    const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:5000' : '';
     try {
-      const response = await axios.post('/api/chat', { message: msg });
+      const response = await axios.post(`${API_BASE}/api/chat`, { message: msg });
       if (response?.data?.chatbotVersion) {
         // Helps confirm the backend is restarted and updated
         console.debug('chatbotVersion:', response.data.chatbotVersion);

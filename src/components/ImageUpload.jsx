@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const ImageUpload = () => {
@@ -111,9 +112,16 @@ const ImageUpload = () => {
 
   const simulatePreview = async () => {
     setLoading(true);
+    const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:5000' : '';
     try {
       const enhanced = await enhanceImage(preview);
       setResult(enhanced);
+      
+      // Notify backend about the preview
+      await axios.post(`${API_BASE}/api/smile-preview`, { 
+        image: enhanced,
+        originalImage: preview 
+      });
     } catch (e) {
       console.error('Enhancement failed:', e);
       setResult(preview);
