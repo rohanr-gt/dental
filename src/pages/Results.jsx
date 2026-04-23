@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const API_BASE = '';
 
@@ -11,6 +12,7 @@ function resolveMediaUrl(url) {
 }
 
 const ResultsPage = () => {
+  const { t } = useLanguage();
   const [gallery, setGallery] = useState([]);
   const [filter, setFilter] = useState('all');
   const [loading, setLoading] = useState(true);
@@ -55,10 +57,10 @@ const ResultsPage = () => {
     : gallery.filter(item => item.category === filter);
 
   const categories = [
-    { value: 'all', label: 'All Treatments', emoji: '⭐' },
-    { value: 'smile-designing', label: 'Smile Designing', emoji: '✨' },
-    { value: 'aligners', label: 'Aligners', emoji: '🔮' },
-    { value: 'implants', label: 'Implants', emoji: '🦷' }
+    { value: 'all', label: t('results.filterAll'), emoji: '⭐' },
+    { value: 'smile-designing', label: t('results.filterSmile'), emoji: '✨' },
+    { value: 'aligners', label: t('results.filterAligners'), emoji: '🔮' },
+    { value: 'implants', label: t('results.filterImplants'), emoji: '🦷' }
   ];
 
   return (
@@ -67,9 +69,9 @@ const ResultsPage = () => {
       {/* Header */}
       <div className="mb-16">
         <div className="text-center mb-12">
-          <h1 className="text-5xl font-serif font-bold text-[color:var(--dk)] mb-4">Real Results, Real People</h1>
+          <h1 className="text-5xl font-serif font-bold text-[color:var(--dk)] mb-4">{t('results.title')}</h1>
           <p className="text-xl text-[color:var(--muted)] max-w-3xl mx-auto">
-            Witness the transformations from our happy patients. Every smile tells a story of precision, care, and dedication.
+            {t('results.subtitle')}
           </p>
         </div>
 
@@ -135,10 +137,10 @@ const ResultsPage = () => {
       {/* CTA Section */}
       <div className="mt-20">
         <div className="bg-gradient-to-r from-[color:var(--teal)] to-[color:var(--dk)] rounded-3xl p-12 text-center text-white">
-          <h2 className="text-4xl font-serif font-bold mb-4">Your Smile Could Be Next</h2>
-          <p className="text-white/80 mb-8 text-lg">Schedule your free consultation and let our experts create your personalized smile transformation plan.</p>
+          <h2 className="text-4xl font-serif font-bold mb-4">{t('services.readyTitle')}</h2>
+          <p className="text-white/80 mb-8 text-lg">{t('services.readySub')}</p>
           <button className="bg-white text-[color:var(--dk)] px-10 py-4 rounded-xl font-bold text-lg hover:bg-[color:var(--soft)] transition-colors shadow-lg">
-            Start Your Journey Now
+            {t('services.bookNowBtn')}
           </button>
         </div>
       </div>

@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const ServicePage = ({ title, subtitle, heroImg, benefits, steps, beforeImg, afterImg }) => {
+  const { t } = useLanguage();
   return (
     <div className="bg-[color:var(--bg)] min-h-screen pt-20">
       {/* Hero Section */}
@@ -18,7 +20,7 @@ const ServicePage = ({ title, subtitle, heroImg, benefits, steps, beforeImg, aft
       {/* Benefits Section */}
       <section className="py-20 px-4 max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-serif font-bold text-[color:var(--dk)] mb-4 text-center">Why Choose This Treatment?</h2>
+          <h2 className="text-3xl font-serif font-bold text-[color:var(--dk)] mb-4 text-center">{t('services.whyChoose')}</h2>
           <div className="w-20 h-1 bg-[color:var(--teal)] mx-auto"></div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -36,8 +38,8 @@ const ServicePage = ({ title, subtitle, heroImg, benefits, steps, beforeImg, aft
       <section className="py-20 bg-[color:var(--deep)] text-white px-4">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-serif font-bold mb-4">Your Journey to a Perfect Smile</h2>
-            <p className="opacity-70">A step-by-step clinical approach</p>
+            <h2 className="text-3xl font-serif font-bold mb-4">{t('services.journeyTitle')}</h2>
+            <p className="opacity-70">{t('services.journeySub')}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {steps.map((step, i) => (
@@ -60,19 +62,19 @@ const ServicePage = ({ title, subtitle, heroImg, benefits, steps, beforeImg, aft
       {afterImg && (
         <section className="py-24 px-4 max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-serif font-bold text-[color:var(--dk)] mb-4">The Result</h2>
-            <p className="text-[color:var(--muted)] text-lg">A masterpiece of aesthetic precision and clinical excellence</p>
+            <h2 className="text-4xl font-serif font-bold text-[color:var(--dk)] mb-4">{t('services.theResult')}</h2>
+            <p className="text-[color:var(--muted)] text-lg">{t('services.resultSub')}</p>
           </div>
           
           {beforeImg ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 rounded-[3rem] overflow-hidden shadow-2xl">
               <div className="relative h-[500px]">
                 <img src={beforeImg} alt="Before" className="w-full h-full object-cover" />
-                <div className="absolute top-6 left-6 bg-black/60 backdrop-blur-md text-white px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest">Before Treatment</div>
+                <div className="absolute top-6 left-6 bg-black/60 backdrop-blur-md text-white px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest">{t('services.beforeTreatment')}</div>
               </div>
               <div className="relative h-[500px]">
                 <img src={afterImg} alt="After" className="w-full h-full object-cover" />
-                <div className="absolute top-6 right-6 bg-[color:var(--teal)] text-white px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest shadow-xl">After Reveal</div>
+                <div className="absolute top-6 right-6 bg-[color:var(--teal)] text-white px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest shadow-xl">{t('services.afterReveal')}</div>
               </div>
             </div>
           ) : (
@@ -81,8 +83,8 @@ const ServicePage = ({ title, subtitle, heroImg, benefits, steps, beforeImg, aft
                 <img src={afterImg} alt="Result" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex items-end p-12">
                   <div className="text-white">
-                    <div className="inline-block bg-[color:var(--teal)] px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest mb-4">Patient Transformation</div>
-                    <p className="text-2xl font-serif italic text-white/95">"My confidence has never been higher. The precision is world-class."</p>
+                    <div className="inline-block bg-[color:var(--teal)] px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest mb-4">{t('services.transformation')}</div>
+                    <p className="text-2xl font-serif italic text-white/95">{t('services.quote')}</p>
                   </div>
                 </div>
               </div>
@@ -93,20 +95,20 @@ const ServicePage = ({ title, subtitle, heroImg, benefits, steps, beforeImg, aft
 
       {/* Global CTA Section */}
       <section className="py-20 px-4 bg-[color:var(--teal)] mt-20 rounded-t-[3rem] text-center">
-        <h2 className="text-3xl md:text-4xl font-serif font-bold text-white mb-6">Ready to Transform Your Smile?</h2>
-        <p className="text-white/85 mb-10 max-w-2xl mx-auto">Schedule your zero-cost consultation today and get a personalized 3D treatment plan.</p>
+        <h2 className="text-3xl md:text-4xl font-serif font-bold text-white mb-6">{t('services.readyTitle')}</h2>
+        <p className="text-white/85 mb-10 max-w-2xl mx-auto">{t('services.readySub')}</p>
         <div className="flex flex-col md:flex-row gap-4 justify-center">
           <Link
             to="/booking"
             className="bg-white text-[color:var(--dk)] px-10 py-4 rounded-xl font-bold text-lg hover:bg-[color:var(--soft)] transition-colors shadow-lg"
           >
-            Book Appointment Now
+            {t('services.bookNowBtn')}
           </Link>
           <Link
             to="/results"
             className="bg-[color:var(--dk)] text-white px-10 py-4 rounded-xl font-bold text-lg hover:bg-[color:var(--deep)] transition-colors border border-white/20"
           >
-            View More Results
+            {t('services.viewResultsBtn')}
           </Link>
         </div>
       </section>

@@ -1,24 +1,26 @@
 import React from 'react';
 import ServicePage from '../components/ServicePage';
+import { useLanguage } from '../contexts/LanguageContext';
 import implantsBefore from '../images/dental implant before.png';
 import implantsAfter from '../images/dental implant after.png';
 import implantsBg from '../images/dental implant background.jpg';
 
 const DentalImplants = () => {
+  const { t } = useLanguage();
   const data = {
-    title: "Dental Implants",
-    subtitle: "The gold standard for permanent tooth replacement. Restore your bite and your confidence.",
+    title: t('dentalImplants.title'),
+    subtitle: t('dentalImplants.subtitle'),
     heroImg: implantsBg,
     benefits: [
-      { icon: "🛡️", title: "Lifetime Solution", desc: "Crafted from biologically compatible titanium, implants are built to last a lifetime." },
-      { icon: "🥩", title: "Full Biting Power", desc: "Enjoy your favorite foods again without worry. Implants feel exactly like real teeth." },
-      { icon: "🦴", title: "Prevents Bone Loss", desc: "Implants stimulate bone growth and prevent facial sagging caused by missing teeth." }
+      { icon: "🛡️", title: t('dentalImplants.benefit1Title'), desc: t('dentalImplants.benefit1Desc') },
+      { icon: "🥩", title: t('dentalImplants.benefit2Title'), desc: t('dentalImplants.benefit2Desc') },
+      { icon: "🦴", title: t('dentalImplants.benefit3Title'), desc: t('dentalImplants.benefit3Desc') }
     ],
     steps: [
-      { title: "CBCT Scan", desc: "A 3D X-ray allows us to map bone density and nerve locations accurately." },
-      { title: "Implant Surgery", desc: "A simple, painless procedure to place the titanium root and a temporary crown." },
-      { title: "Healing Phase", desc: "Wait 3-6 months for the implant to fuse naturally with your jawbone." },
-      { title: "Final Crown", desc: "A custom porcelain crown is fitted for a seamless, natural look and feel." }
+      { title: t('dentalImplants.step1Title'), desc: t('dentalImplants.step1Desc') },
+      { title: t('dentalImplants.step2Title'), desc: t('dentalImplants.step2Desc') },
+      { title: t('dentalImplants.step3Title'), desc: t('dentalImplants.step3Desc') },
+      { title: t('dentalImplants.step4Title'), desc: t('dentalImplants.step4Desc') }
     ],
     afterImg: "https://www.sanmarcosdental.com/blog/wp-content/uploads/implant-diagram.jpeg"
   };

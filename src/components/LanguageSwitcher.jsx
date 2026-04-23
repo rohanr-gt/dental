@@ -8,7 +8,7 @@ const LanguageSwitcher = () => {
 
   const languages = [
     { code: 'en', name: 'English', flag: '🇺🇸' },
-    { code: 'es', name: 'Español', flag: '🇪🇸' }
+    { code: 'es', name: 'Spanish', flag: '🇪🇸' }
   ];
 
   const current = useMemo(
