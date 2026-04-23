@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-const API_BASE = 'http://localhost:5000';
+const API_BASE = '';
 const TOKEN_KEY = 'adminToken';
 
 function formatDate(iso) {
@@ -137,97 +138,103 @@ export default function Admin() {
 
   if (!token) {
     return (
-      <div className="min-h-screen pt-32 pb-20 px-4 bg-gradient-to-b from-[color:var(--soft)] to-white">
-        <div className="max-w-md mx-auto bg-white border border-black/5 rounded-3xl shadow-2xl p-10">
-          <h1 className="text-4xl font-serif font-bold text-[color:var(--dk)] mb-2">Admin Login</h1>
-          <p className="text-[color:var(--muted)] mb-8">Enter admin credentials to continue.</p>
+      <div className="min-h-screen pt-20 lg:pt-32 pb-20 px-4 bg-gradient-to-b from-[color:var(--soft)] to-white">
+        <div className="max-w-md mx-auto">
+          <Link to="/" className="inline-flex items-center gap-2 text-[color:var(--muted)] hover:text-[color:var(--teal)] font-bold mb-8 transition-colors">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            Back to Website
+          </Link>
 
-          <form onSubmit={login} className="space-y-4">
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wide text-[color:var(--muted)] mb-2">
-                Username
-              </label>
-              <input
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                className="w-full bg-[color:var(--bg)] border border-black/10 rounded-xl px-4 py-3 focus:outline-none focus:border-[color:var(--teal)]"
-                autoComplete="username"
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wide text-[color:var(--muted)] mb-2">
-                Password
-              </label>
-              <input
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                type="password"
-                className="w-full bg-[color:var(--bg)] border border-black/10 rounded-xl px-4 py-3 focus:outline-none focus:border-[color:var(--teal)]"
-                autoComplete="current-password"
-              />
-            </div>
+          <div className="bg-white border border-black/5 rounded-3xl shadow-2xl p-8 lg:p-10">
+            <h1 className="text-3xl lg:text-4xl font-serif font-bold text-[color:var(--dk)] mb-2">Admin Login</h1>
+            <p className="text-[color:var(--muted)] mb-8">Enter admin credentials to continue.</p>
 
-            {authError && <div className="text-sm font-bold text-red-600">{authError}</div>}
+            <form onSubmit={login} className="space-y-4">
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wide text-[color:var(--muted)] mb-2">
+                  Username
+                </label>
+                <input
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="w-full bg-[color:var(--bg)] border border-black/10 rounded-xl px-4 py-3 focus:outline-none focus:border-[color:var(--teal)]"
+                  autoComplete="username"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wide text-[color:var(--muted)] mb-2">
+                  Password
+                </label>
+                <input
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  type="password"
+                  className="w-full bg-[color:var(--bg)] border border-black/10 rounded-xl px-4 py-3 focus:outline-none focus:border-[color:var(--teal)]"
+                  autoComplete="current-password"
+                />
+              </div>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-[color:var(--teal)] text-white py-3 rounded-xl font-bold hover:bg-[color:var(--dk)] transition disabled:opacity-50"
-            >
-              {loading ? 'Signing in…' : 'Sign In'}
-            </button>
-          </form>
+              {authError && <div className="text-sm font-bold text-red-600">{authError}</div>}
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-[color:var(--teal)] text-white py-3 rounded-xl font-bold hover:bg-[color:var(--dk)] transition disabled:opacity-50"
+              >
+                {loading ? 'Signing in…' : 'Sign In'}
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     );
   }
 
+  const navItems = [
+    { id: 'leads', label: 'Leads' },
+    { id: 'gallery', label: 'Gallery' },
+    { id: 'booking', label: 'Booking' }
+  ];
+
   return (
     <div className="min-h-screen bg-[color:var(--bg)] text-[color:var(--txt)]">
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-black/5">
-        <div className="max-w-full mx-auto px-10 py-6 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <h1 className="text-3xl font-bold text-[color:var(--teal)] tracking-tight">AdminPanel</h1>
-          </div>
+        <div className="max-w-7xl mx-auto px-4 lg:px-10 py-4 lg:py-6 flex items-center justify-between">
+          <h1 className="text-xl lg:text-3xl font-bold text-[color:var(--teal)] tracking-tight">AdminPanel</h1>
           <button
             onClick={logout}
-            className="px-6 py-2.5 rounded-xl font-bold bg-[color:var(--soft)] text-[color:var(--dk)] hover:bg-[color:var(--teal)] hover:text-white transition"
+            className="px-4 lg:px-6 py-2 lg:py-2.5 rounded-xl font-bold bg-[color:var(--soft)] text-[color:var(--dk)] hover:bg-[color:var(--teal)] hover:text-white transition text-sm lg:text-base"
           >
             Logout
           </button>
         </div>
       </header>
 
-      <div className="max-w-full flex pt-[88px]">
-        {/* Sidebar */}
-        <aside className="w-80 h-[calc(100vh-88px)] bg-[color:var(--deep)] p-8 sticky top-[88px] hidden lg:block">
-          <nav className="space-y-4">
-            {[
-              { id: 'leads', icon: <path d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />, label: 'Leads' },
-              { id: 'gallery', icon: <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />, label: 'Gallery' },
-              { id: 'booking', icon: <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />, label: 'Booking' }
-            ].map((item) => (
-              <button
-                key={item.id}
-                onClick={() => setTab(item.id)}
-                className={`w-full flex items-center gap-4 px-6 py-4 rounded-2xl font-semibold transition-all group ${
-                  tab === item.id 
-                    ? 'bg-white/10 text-white shadow-lg' 
-                    : 'text-white/50 hover:bg-white/5 hover:text-white'
-                }`}
-              >
-                <svg className={`w-6 h-6 transition-colors ${tab === item.id ? 'text-emerald-400' : 'text-white/30 group-hover:text-emerald-400'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  {item.icon}
-                </svg>
-                {item.label}
-              </button>
-            ))}
-          </nav>
-        </aside>
+      <div className="pt-[72px] lg:pt-[88px]">
+        {/* Horizontal Navigation Bar (Always Visible) */}
+        <div className="bg-white border-b border-black/5 sticky top-[72px] lg:top-[88px] z-40">
+          <div className="max-w-7xl mx-auto px-4 lg:px-10">
+            <div className="flex gap-4 lg:gap-8 overflow-x-auto no-scrollbar">
+              {navItems.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => setTab(item.id)}
+                  className={`whitespace-nowrap py-4 lg:py-6 px-2 font-bold text-sm lg:text-base border-b-2 transition-all ${
+                    tab === item.id 
+                      ? 'border-[color:var(--teal)] text-[color:var(--teal)]' 
+                      : 'border-transparent text-[color:var(--muted)] hover:text-[color:var(--dk)]'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
 
         {/* Content */}
-        <main className="flex-1 min-w-0 bg-[color:var(--bg)] min-h-[calc(100vh-88px)] p-12 lg:p-16 text-[color:var(--txt)]">
+        <main className="max-w-7xl mx-auto p-4 lg:p-10 text-[color:var(--txt)]">
 
             {tab === 'leads' && (
           <div className="bg-white border border-black/5 rounded-3xl shadow-xl overflow-hidden">
@@ -247,13 +254,13 @@ export default function Admin() {
               <table className="min-w-full text-sm">
                 <thead className="bg-[color:var(--soft)] text-[color:var(--dk)]">
                   <tr>
-                    <th className="text-left px-6 py-4 font-bold">Name</th>
-                    <th className="text-left px-6 py-4 font-bold">Phone</th>
-                    <th className="text-left px-6 py-4 font-bold">Email</th>
-                    <th className="text-left px-6 py-4 font-bold">Service</th>
-                    <th className="text-left px-6 py-4 font-bold">Source</th>
-                    <th className="text-left px-6 py-4 font-bold">Created</th>
-                    <th className="text-left px-6 py-4 font-bold">Status</th>
+                    <th className="text-left px-4 lg:px-6 py-4 font-bold">Name</th>
+                    <th className="text-left px-4 lg:px-6 py-4 font-bold">Phone</th>
+                    <th className="text-left px-6 py-4 font-bold hidden md:table-cell">Email</th>
+                    <th className="text-left px-6 py-4 font-bold hidden lg:table-cell">Service</th>
+                    <th className="text-left px-6 py-4 font-bold hidden lg:table-cell">Source</th>
+                    <th className="text-left px-6 py-4 font-bold hidden xl:table-cell">Created</th>
+                    <th className="text-left px-4 lg:px-6 py-4 font-bold">Status</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -271,18 +278,18 @@ export default function Admin() {
                     </tr>
                   ) : (
                     leads.map((l) => (
-                      <tr key={l.id} className="border-t border-black/5">
-                        <td className="px-6 py-4 font-bold text-[color:var(--dk)]">{l.name}</td>
-                        <td className="px-6 py-4">{l.phone}</td>
-                        <td className="px-6 py-4">{l.email || '-'}</td>
-                        <td className="px-6 py-4">{l.service || '-'}</td>
-                        <td className="px-6 py-4">{l.source}</td>
-                        <td className="px-6 py-4">{formatDate(l.createdAt)}</td>
-                        <td className="px-6 py-4">
+                      <tr key={l.id} className="border-t border-black/5 hover:bg-gray-50 transition-colors">
+                        <td className="px-4 lg:px-6 py-4 font-bold text-[color:var(--dk)]">{l.name}</td>
+                        <td className="px-4 lg:px-6 py-4">{l.phone}</td>
+                        <td className="px-6 py-4 hidden md:table-cell">{l.email || '-'}</td>
+                        <td className="px-6 py-4 hidden lg:table-cell">{l.service || '-'}</td>
+                        <td className="px-6 py-4 hidden lg:table-cell">{l.source}</td>
+                        <td className="px-6 py-4 hidden xl:table-cell">{formatDate(l.createdAt)}</td>
+                        <td className="px-4 lg:px-6 py-4">
                           <select
                             value={l.status || 'new'}
                             onChange={(e) => updateLeadStatus(l.id, e.target.value)}
-                            className="bg-white border border-black/10 rounded-xl px-3 py-2 font-bold text-[color:var(--dk)]"
+                            className="bg-white border border-black/10 rounded-xl px-2 lg:px-3 py-1 lg:py-2 font-bold text-[color:var(--dk)] text-xs lg:text-sm"
                           >
                             <option value="new">new</option>
                             <option value="contacted">contacted</option>
@@ -379,21 +386,21 @@ export default function Admin() {
                   <div className="p-6 text-[color:var(--muted)]">No gallery items yet.</div>
                 ) : (
                   gallery.map((g) => (
-                    <div key={g.id} className="p-6 flex items-center gap-4">
-                      <div className="w-16 h-16 rounded-2xl overflow-hidden bg-[color:var(--soft)] border border-black/5 flex-shrink-0">
+                    <div key={g.id} className="p-4 lg:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                      <div className="w-full sm:w-16 h-40 sm:h-16 rounded-2xl overflow-hidden bg-[color:var(--soft)] border border-black/5 flex-shrink-0">
                         <img
                           src={`${API_BASE}${g.image}`}
                           alt={g.title}
                           className="w-full h-full object-cover"
                         />
                       </div>
-                      <div className="flex-1">
-                        <div className="font-bold text-[color:var(--dk)]">{g.title}</div>
+                      <div className="flex-1 min-w-0">
+                        <div className="font-bold text-[color:var(--dk)] truncate">{g.title}</div>
                         <div className="text-sm text-[color:var(--muted)]">{g.category}</div>
                       </div>
                       <button
                         onClick={() => deleteGallery(g.id)}
-                        className="px-4 py-2 rounded-xl font-bold bg-white border border-black/10 text-red-600 hover:bg-red-50 transition"
+                        className="w-full sm:w-auto px-4 py-2 rounded-xl font-bold bg-white border border-black/10 text-red-600 hover:bg-red-50 transition"
                       >
                         Delete
                       </button>

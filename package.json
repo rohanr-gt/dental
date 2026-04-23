@@ -4,10 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"npm run server\" \"vite\"",
-    "build": "vite build",
-    "preview": "vite preview",
-    "server": "node server/server.js",
+    "build:css": "tailwindcss -i ./src/styles/index.css -o ./dist/index.css",
+    "build:js": "node scripts/build.mjs",
+    "build": "npm run build:css && npm run build:js",
+    "dev": "npm run build && node server/server.js",
+    "start": "npm run build && node server/server.js",
+    "postinstall": "node scripts/init-env.mjs && npm run build",
     "setup:email": "node scripts/setup-email.mjs"
   },
   "dependencies": {
@@ -19,21 +21,19 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
     "multer": "^2.1.1",
+    "mysql2": "^3.6.1",
     "nodemailer": "^7.0.5",
     "node-cron": "^3.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.14.2",
-    "sqlite3": "^5.1.6"
+    "react-router-dom": "^6.14.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
-    "@vitejs/plugin-react": "^4.0.3",
     "autoprefixer": "^10.4.14",
-    "concurrently": "^8.2.2",
+    "esbuild": "^0.19.2",
     "postcss": "^8.4.27",
-    "tailwindcss": "^3.3.3",
-    "vite": "^4.4.5"
+    "tailwindcss": "^3.3.3"
   }
 }

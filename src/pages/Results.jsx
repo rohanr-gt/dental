@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const API_BASE = 'http://localhost:5000';
+const API_BASE = '';
 
 function resolveMediaUrl(url) {
   if (!url) return url;
@@ -21,7 +21,7 @@ const ResultsPage = () => {
 
   const fetchGallery = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/gallery');
+      const response = await axios.get('/api/gallery');
       setGallery(response.data.gallery);
       setLoading(false);
     } catch (error) {

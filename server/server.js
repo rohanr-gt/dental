@@ -8,8 +8,9 @@ import multer from 'multer';
 import nodemailer from 'nodemailer';
 import fs from 'fs';
 import path from 'path';
-import sqlite3 from 'sqlite3';
+import mysql from 'mysql2/promise';
 import { fileURLToPath } from 'url';
+import { initDb, dbRun, dbAll, dbGet } from '../database/db.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -185,93 +186,13 @@ if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
 app.use('/uploads', express.static(uploadsDir));
 
 // ----------------------------
-// Database (SQLite)
+// Database (MySQL)
 // ----------------------------
-const dbPath = path.join(__dirname, '..', 'database', 'smilevista.db');
-const dbDir = path.dirname(dbPath);
-if (!fs.existsSync(dbDir)) fs.mkdirSync(dbDir, { recursive: true });
+initDb().catch(err => {
+  console.error('Failed to initialize database:', err);
+});
 
-const db = new sqlite3.Database(dbPath);
-
-const dbRun = (sql, params = []) =>
-  new Promise((resolve, reject) => {
-    db.run(sql, params, function (err) {
-      if (err) return reject(err);
-      resolve({ lastID: this.lastID, changes: this.changes });
-    });
-  });
-
-const dbAll = (sql, params = []) =>
-  new Promise((resolve, reject) => {
-    db.all(sql, params, (err, rows) => {
-      if (err) return reject(err);
-      resolve(rows);
-    });
-  });
-
-const dbGet = (sql, params = []) =>
-  new Promise((resolve, reject) => {
-    db.get(sql, params, (err, row) => {
-      if (err) return reject(err);
-      resolve(row);
-    });
-  });
-
-await dbRun(`
-  CREATE TABLE IF NOT EXISTS leads (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    phone TEXT NOT NULL,
-    email TEXT,
-    source TEXT NOT NULL,
-    service TEXT,
-    message TEXT,
-    status TEXT NOT NULL DEFAULT 'new',
-    createdAt TEXT NOT NULL
-  )
-`);
-
-await dbRun(`
-  CREATE TABLE IF NOT EXISTS gallery (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    category TEXT NOT NULL,
-    title TEXT NOT NULL,
-    beforeUrl TEXT NOT NULL,
-    afterUrl TEXT NOT NULL,
-    createdAt TEXT NOT NULL
-  )
-`);
-
-// ----------------------------
-// Gallery migration (before/after -> single imageUrl)
-// ----------------------------
-async function ensureGallerySchema() {
-  const info = await dbAll(`PRAGMA table_info(gallery)`);
-  const hasImageUrl = info.some((c) => c.name === 'imageUrl');
-  if (hasImageUrl) return;
-
-  // Migrate old schema to new schema with single imageUrl
-  await dbRun(`
-    CREATE TABLE IF NOT EXISTS gallery_new (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      category TEXT NOT NULL,
-      title TEXT NOT NULL,
-      imageUrl TEXT NOT NULL,
-      createdAt TEXT NOT NULL
-    )
-  `);
-
-  await dbRun(`
-    INSERT INTO gallery_new (id, category, title, imageUrl, createdAt)
-    SELECT id, category, title, COALESCE(beforeUrl, afterUrl, '') as imageUrl, createdAt
-    FROM gallery
-  `);
-
-  await dbRun(`DROP TABLE gallery`);
-  await dbRun(`ALTER TABLE gallery_new RENAME TO gallery`);
-}
-
-await ensureGallerySchema();
+// Gallery schema is handled in initial creation for MySQL
 
 // In-memory storage (non-persistent)
 let appointments = [];
@@ -326,57 +247,57 @@ const upload = multer({ storage });
 // STEP 3: AI SMILE PREVIEW API
 // ============================================
 app.post('/api/smile-preview', (req, res) => {
-    try {
-        res.json({
-            success: true,
-            message: 'Image processed successfully',
-            transformedImage: req.body.image,
-            recommendations: [
-                'Teeth Whitening - to brighten your smile',
-                'Veneers - for a more elegant look',
-                'Smile Designing - for perfect proportions'
-            ]
-        });
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
+  try {
+    res.json({
+      success: true,
+      message: 'Image processed successfully',
+      transformedImage: req.body.image,
+      recommendations: [
+        'Teeth Whitening - to brighten your smile',
+        'Veneers - for a more elegant look',
+        'Smile Designing - for perfect proportions'
+      ]
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
 });
 
 // ============================================
 // STEP 4: TREATMENT RECOMMENDATION API
 // ============================================
 app.post('/api/recommend-treatment', (req, res) => {
-    const { answers } = req.body;
-    let recommendedTreatment = 'General Checkup';
+  const { answers } = req.body;
+  let recommendedTreatment = 'General Checkup';
 
-    if (answers) {
-        if (answers.missingTeeth && answers.missingTeeth > 0) {
-            recommendedTreatment = 'Dental Implants';
-        } else if (answers.teeth === 'crooked') {
-            recommendedTreatment = 'Aligners & Braces';
-        } else if (answers.teeth === 'discolored') {
-            recommendedTreatment = 'Teeth Whitening + Smile Designing';
-        } else if (answers.smile === 'not-happy') {
-            recommendedTreatment = 'Digital Smile Designing';
-        }
+  if (answers) {
+    if (answers.missingTeeth && answers.missingTeeth > 0) {
+      recommendedTreatment = 'Dental Implants';
+    } else if (answers.teeth === 'crooked') {
+      recommendedTreatment = 'Aligners & Braces';
+    } else if (answers.teeth === 'discolored') {
+      recommendedTreatment = 'Teeth Whitening + Smile Designing';
+    } else if (answers.smile === 'not-happy') {
+      recommendedTreatment = 'Digital Smile Designing';
     }
+  }
 
-    const assessment = {
-        id: assessments.length + 1,
-        recommendedTreatment,
-        details: answers,
-        createdAt: new Date()
-    };
-    
-    assessments.push(assessment);
+  const assessment = {
+    id: assessments.length + 1,
+    recommendedTreatment,
+    details: answers,
+    createdAt: new Date()
+  };
 
-    res.json({
-        success: true,
-        recommendedTreatment,
-        estimatedCost: Math.floor(Math.random() * 5000) + 1000,
-        timeframe: '3-6 months',
-        assessmentId: assessment.id
-    });
+  assessments.push(assessment);
+
+  res.json({
+    success: true,
+    recommendedTreatment,
+    estimatedCost: Math.floor(Math.random() * 5000) + 1000,
+    timeframe: '3-6 months',
+    assessmentId: assessment.id
+  });
 });
 
 // ============================================
@@ -430,7 +351,7 @@ app.post('/api/appointments', async (req, res) => {
         service || null,
         issue || null,
         'new',
-        new Date().toISOString()
+        new Date()
       ]
     );
   } catch (error) {
@@ -454,39 +375,39 @@ app.post('/api/appointments', async (req, res) => {
 });
 
 app.get('/api/appointments', (req, res) => {
-    res.json({ success: true, appointments });
+  res.json({ success: true, appointments });
 });
 
 app.get('/api/available-slots', (req, res) => {
-    res.json({ success: true, slots: AVAILABLE_SLOTS });
+  res.json({ success: true, slots: AVAILABLE_SLOTS });
 });
 
 // ============================================
 // STEP 6: GALLERY API
 // ============================================
 app.get('/api/gallery', (req, res) => {
-    dbAll(`SELECT id, category, title, imageUrl, createdAt FROM gallery ORDER BY id DESC`)
-      .then((rows) => {
-        const gallery = rows.map((r) => ({
-          id: r.id,
-          category: r.category,
-          title: r.title,
-          image: r.imageUrl,
-          createdAt: r.createdAt
-        }));
-        res.json({ success: true, gallery });
-      })
-      .catch((error) => {
-        console.error('Gallery fetch error:', error);
-        res.json({ success: true, gallery: [] });
-      });
+  dbAll(`SELECT id, category, title, imageUrl, createdAt FROM gallery ORDER BY id DESC`)
+    .then((rows) => {
+      const gallery = rows.map((r) => ({
+        id: r.id,
+        category: r.category,
+        title: r.title,
+        image: r.imageUrl,
+        createdAt: r.createdAt
+      }));
+      res.json({ success: true, gallery });
+    })
+    .catch((error) => {
+      console.error('Gallery fetch error:', error);
+      res.json({ success: true, gallery: [] });
+    });
 });
 
 // ============================================
 // ADMIN: LEADS API
 // ============================================
 app.get('/api/leads', requireAdmin, (req, res) => {
-  dbAll(`SELECT * FROM leads ORDER BY datetime(createdAt) DESC`)
+  dbAll(`SELECT * FROM leads ORDER BY createdAt DESC`)
     .then((rows) => res.json({ success: true, leads: rows }))
     .catch((error) => {
       console.error('Leads fetch error:', error);
@@ -518,12 +439,12 @@ app.post(
     const imageFile = req.file;
 
     if (!category || !title || !imageFile) {
-      if (imageFile?.path) fs.unlink(imageFile.path, () => {});
+      if (imageFile?.path) fs.unlink(imageFile.path, () => { });
       return res.status(400).json({ success: false, error: 'Missing required fields/files' });
     }
 
     const imageUrl = `/uploads/${imageFile.filename}`;
-    const createdAt = new Date().toISOString();
+    const createdAt = new Date();
 
     dbRun(
       `INSERT INTO gallery (category, title, imageUrl, createdAt) VALUES (?, ?, ?, ?)`,
@@ -537,7 +458,7 @@ app.post(
       })
       .catch((error) => {
         console.error('Gallery insert error:', error);
-        fs.unlink(imageFile.path, () => {});
+        fs.unlink(imageFile.path, () => { });
         res.status(500).json({ success: false, error: 'Failed to save gallery item' });
       });
   }
@@ -552,7 +473,7 @@ app.delete('/api/admin/gallery/:id', requireAdmin, async (req, res) => {
     await dbRun(`DELETE FROM gallery WHERE id = ?`, [id]);
 
     const imgPath = path.join(uploadsDir, path.basename(item.imageUrl || ''));
-    if (fs.existsSync(imgPath)) fs.unlink(imgPath, () => {});
+    if (fs.existsSync(imgPath)) fs.unlink(imgPath, () => { });
 
     return res.json({ success: true });
   } catch (error) {
@@ -814,24 +735,24 @@ app.post('/api/chat', (req, res) => {
 // STEP 9: TRANSLATIONS API
 // ============================================
 app.get('/api/translations/:language', (req, res) => {
-    const translations = {
-        en: { services: 'Services', booking: 'Book Appointment', smile: 'Your Perfect Smile Awaits' },
-        es: { services: 'Servicios', booking: 'Reservar Cita', smile: 'Tu Sonrisa Perfecta Te Espera' }
-    };
-    const lang = req.params.language || 'en';
-    res.json({ success: true, translations: translations[lang] || translations.en });
+  const translations = {
+    en: { services: 'Services', booking: 'Book Appointment', smile: 'Your Perfect Smile Awaits' },
+    es: { services: 'Servicios', booking: 'Reservar Cita', smile: 'Tu Sonrisa Perfecta Te Espera' }
+  };
+  const lang = req.params.language || 'en';
+  res.json({ success: true, translations: translations[lang] || translations.en });
 });
 
 // ============================================
 // STEP 10: FAQ API
 // ============================================
 app.get('/api/faqs', (req, res) => {
-    const faqs = [
-        { id: 1, category: 'general', question: 'How long do treatments take?', answer: 'Treatment duration varies by procedure. Schedule a consultation for details.' },
-        { id: 2, category: 'implants', question: 'Are dental implants safe?', answer: 'Yes, implants are FDA-approved and have a 95%+ success rate.' },
-        { id: 3, category: 'aligners', question: 'Can I eat with aligners?', answer: 'Remove aligners before eating. Wear them 22 hours daily for best results.' }
-    ];
-    res.json({ success: true, faqs });
+  const faqs = [
+    { id: 1, category: 'general', question: 'How long do treatments take?', answer: 'Treatment duration varies by procedure. Schedule a consultation for details.' },
+    { id: 2, category: 'implants', question: 'Are dental implants safe?', answer: 'Yes, implants are FDA-approved and have a 95%+ success rate.' },
+    { id: 3, category: 'aligners', question: 'Can I eat with aligners?', answer: 'Remove aligners before eating. Wear them 22 hours daily for best results.' }
+  ];
+  res.json({ success: true, faqs });
 });
 
 // ============================================
@@ -839,39 +760,35 @@ app.get('/api/faqs', (req, res) => {
 // ============================================
 // Send reminder emails at 9 AM daily
 cron.schedule('0 9 * * *', async () => {
-    console.log('📧 Running appointment reminder job...');
-    const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
-    
-    // Filter appointments for tomorrow
-    const reminders = appointments.filter(apt => apt.date === tomorrow && apt.email);
-    console.log(`💬 Sending ${reminders.length} reminders for tomorrow (${tomorrow})...`);
+  console.log('📧 Running appointment reminder job...');
+  const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
 
-    for (const apt of reminders) {
-        await sendReminderEmail({ to: apt.email, appointment: apt });
-    }
+  // Filter appointments for tomorrow
+  const reminders = appointments.filter(apt => apt.date === tomorrow && apt.email);
+  console.log(`💬 Sending ${reminders.length} reminders for tomorrow (${tomorrow})...`);
+
+  for (const apt of reminders) {
+    await sendReminderEmail({ to: apt.email, appointment: apt });
+  }
 });
 
 // ============================================
-// HEALTH CHECK & ROOT
+// SERVE FRONTEND (React)
 // ============================================
-app.get('/', (req, res) => {
-    res.json({
-        message: 'SmileVista Dental API is running',
-        version: '1.0.0',
-        endpoints: [
-            '/api/smile-preview',
-            '/api/recommend-treatment',
-            '/api/appointments',
-            '/api/available-slots',
-            '/api/gallery',
-            '/api/chat',
-            '/api/translations/:language',
-            '/api/faqs'
-        ]
-    });
+const distPath = path.join(__dirname, '..', 'dist');
+app.use(express.static(distPath));
+
+// API health check
+app.get('/api/health', (req, res) => {
+  res.json({ message: 'SmileVista Dental API is running', version: '1.0.0' });
+});
+
+// Catch-all route to serve React app
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'index.html'));
 });
 
 app.listen(PORT, () => {
-    console.log(`🚀 Server running on http://localhost:${PORT}`);
-    console.log('✅ All APIs ready for SmileVista Dental');
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log('✅ All APIs ready for SmileVista Dental');
 });

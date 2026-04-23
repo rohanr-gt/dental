@@ -73,7 +73,7 @@ const Home = () => {
           <div className="inline-block bg-[color:var(--teal)]/20 border border-[color:var(--teal)]/30 text-[#C9A24A] px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-8">
             International Centre of Excellence
           </div>
-          <h1 className="text-6xl md:text-8xl font-serif font-bold leading-[1.1] mb-6">
+          <h1 className="text-5xl sm:text-6xl md:text-8xl font-serif font-bold leading-[1.1] mb-6">
             Where Perfect <br />
             <span className="italic text-[#C9A24A]">Smiles</span> Are Crafted
           </h1>

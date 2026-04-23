@@ -22,7 +22,7 @@ const BookingPage = () => {
 
   const fetchAvailableSlots = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/available-slots');
+      const response = await axios.get('/api/available-slots');
       setAvailableSlots(response.data.slots);
     } catch (error) {
       console.log('Using default slots');
@@ -43,14 +43,11 @@ const BookingPage = () => {
     setLoading(true);
 
     try {
-      // 1. Submit to local API (existing logic)
-      const localResponse = await axios.post('http://localhost:5000/api/appointments', formData);
-
+      const localResponse = await axios.post('/api/appointments', formData);
       setEmailStatus(localResponse?.data?.emailStatus || null);
 
       if (localResponse.data.success) {
         setSubmitted(true);
-        // We keep formData for the "Success" display, but clear it later if needed
       }
     } catch (error) {
       console.error('Booking error:', error);
@@ -61,18 +58,18 @@ const BookingPage = () => {
   };
 
   return (
-    <div className="min-h-screen pt-32 pb-20 px-4 bg-gradient-to-b from-[color:var(--soft)] to-white">
+    <div className="min-h-screen pt-24 md:pt-32 pb-20 px-4 bg-gradient-to-b from-[color:var(--soft)] to-white">
       <div className="max-w-2xl mx-auto">
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-serif font-bold text-[color:var(--dk)] mb-4">Book Your Consultation</h1>
-          <p className="text-[color:var(--muted)] text-lg">Zero-cost initial consultation with our expert dentists</p>
+        <div className="text-center mb-8 md:mb-12">
+          <h1 className="text-3xl md:text-5xl font-serif font-bold text-[color:var(--dk)] mb-4">Book Your Consultation</h1>
+          <p className="text-[color:var(--muted)] text-base md:text-lg">Zero-cost initial consultation with our expert dentists</p>
         </div>
 
         {submitted ? (
-          <div className="bg-green-50 border-2 border-green-500 rounded-3xl p-12 text-center">
-            <div className="text-6xl mb-4">✅</div>
-            <h2 className="text-3xl font-serif font-bold text-green-900 mb-4">Appointment Confirmed!</h2>
-            <p className="text-green-700 mb-6">We've received your booking request. Our team will confirm your appointment within 2 hours via phone/email.</p>
+          <div className="bg-green-50 border-2 border-green-500 rounded-3xl p-6 md:p-12 text-center">
+            <div className="text-5xl md:text-6xl mb-4">✅</div>
+            <h2 className="text-2xl md:text-3xl font-serif font-bold text-green-900 mb-4">Appointment Confirmed!</h2>
+            <p className="text-green-700 mb-6 text-sm md:text-base">We've received your booking request. Our team will confirm your appointment within 2 hours via phone/email.</p>
             {emailStatus ? (
               <p className="text-sm mb-6">
                 <strong>Email:</strong>{' '}
@@ -98,7 +95,7 @@ const BookingPage = () => {
                 )}
               </p>
             ) : null}
-            <div className="bg-white rounded-2xl p-6 mb-6 text-left">
+            <div className="bg-white rounded-2xl p-4 md:p-6 mb-6 text-left text-sm md:text-base">
               <p className="text-gray-700 mb-2"><strong>Name:</strong> {formData.name || 'Pending'}</p>
               <p className="text-gray-700 mb-2"><strong>Date:</strong> {formData.date}</p>
               <p className="text-gray-700 mb-2"><strong>Time:</strong> {formData.time}</p>
@@ -137,9 +134,9 @@ const BookingPage = () => {
             </div>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="bg-white rounded-3xl shadow-2xl p-10 border border-black/5">
+          <form onSubmit={handleSubmit} className="bg-white rounded-3xl shadow-2xl p-6 md:p-10 border border-black/5">
             {/* Personal Info */}
-            <div className="grid md:grid-cols-2 gap-6 mb-8">
+            <div className="grid md:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-8">
               <div>
                 <label className="block text-[color:var(--dk)] font-bold mb-2">Full Name *</label>
                 <input
@@ -166,7 +163,7 @@ const BookingPage = () => {
               </div>
             </div>
 
-            <div className="mb-8">
+            <div className="mb-6 md:mb-8">
               <label className="block text-[color:var(--dk)] font-bold mb-2">Email Address</label>
               <input
                 type="email"
@@ -180,9 +177,9 @@ const BookingPage = () => {
             </div>
 
             {/* Appointment Details */}
-            <div className="bg-[color:var(--soft)] p-6 rounded-2xl mb-8 border border-black/5">
-              <h3 className="text-lg font-bold text-[color:var(--dk)] mb-6">Select Your Appointment</h3>
-              <div className="grid md:grid-cols-2 gap-6 mb-6">
+            <div className="bg-[color:var(--soft)] p-4 md:p-6 rounded-2xl mb-6 md:mb-8 border border-black/5">
+              <h3 className="text-lg font-bold text-[color:var(--dk)] mb-4 md:mb-6">Select Your Appointment</h3>
+              <div className="grid md:grid-cols-2 gap-4 md:gap-6 mb-6">
                 <div>
                   <label className="block text-[color:var(--dk)] font-bold mb-2">Service *</label>
                   <select
@@ -212,15 +209,15 @@ const BookingPage = () => {
                 </div>
               </div>
 
-              <div className="mb-6">
+              <div className="mb-4">
                 <label className="block text-[color:var(--dk)] font-bold mb-3">Time Slot *</label>
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 md:gap-3">
                   {availableSlots.map((slot) => (
                     <button
                       key={slot}
                       type="button"
                       onClick={() => setFormData(prev => ({ ...prev, time: slot }))}
-                      className={`py-2 px-3 rounded-lg font-semibold transition ${
+                      className={`py-2 px-3 rounded-lg font-semibold text-sm transition ${
                         formData.time === slot
                           ? 'bg-[color:var(--teal)] text-white'
                           : 'bg-white border border-gray-300 text-gray-700 hover:border-[color:var(--teal)]'
@@ -234,7 +231,7 @@ const BookingPage = () => {
             </div>
 
             {/* Issue Description */}
-            <div className="mb-8">
+            <div className="mb-6 md:mb-8">
               <label className="block text-[color:var(--dk)] font-bold mb-2">Tell us about your dental goals</label>
               <textarea
                 name="issue"

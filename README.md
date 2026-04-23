@@ -16,23 +16,31 @@ A modern, fully-featured dental website built with **React**, **Node.js**, and *
 - 📱 **Fully Responsive** - Works on all devices
 - 🔍 **SEO Optimized** - Meta tags and structured data
 
-## 🚀 Quick Start
+## 🚀 Quick Start (Clone & Run)
 
-### 1. Install Dependencies
+Setting up the project is now fully automated. Follow these steps to get started:
+
+### 1. Prerequisites
+- **Node.js** (v16 or higher)
+- **MySQL** installed and running on your machine
+
+### 2. Install & Auto-Initialize
+Run the following command in the project root. This will install dependencies, **automatically create your `.env` file**, and build the frontend:
 ```bash
 npm install
 ```
 
-### 2. Start Development
+### 3. Database Configuration
+By default, the app looks for MySQL on `localhost` with user `root` and password `root`. 
+- If your MySQL credentials are different, open the **`.env`** file and update `MYSQL_USER` and `MYSQL_PASSWORD`.
+- **Note**: You do NOT need to create the database or tables manually; the app handles this on startup.
+
+### 4. Run the Application
+Start both the frontend and backend with one command:
 ```bash
 npm run dev
 ```
-
-- Frontend: http://localhost:5173/
-- Backend: http://localhost:5000/
-
-### 3. View in Browser
-Open http://localhost:5173/ and explore!
+Open **http://localhost:5000** in your browser to view the site!
 
 ## 📁 Project Structure
 

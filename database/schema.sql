@@ -1,27 +1,26 @@
--- SmileVista Dental Database Schema
+-- SmileVista Dental - MySQL Schema Reference
 
-CREATE DATABASE IF NOT EXISTS smilevista_db;
-USE smilevista_db;
+CREATE DATABASE IF NOT EXISTS `smilevista`;
+USE `smilevista`;
 
--- Appointments Table
-CREATE TABLE IF NOT EXISTS appointments (
+-- Table for patient leads and booking requests
+CREATE TABLE IF NOT EXISTS leads (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(100) NOT NULL,
-  phone VARCHAR(15) NOT NULL,
-  email VARCHAR(100),
-  date DATE NOT NULL,
-  time VARCHAR(20) NOT NULL,
-  service VARCHAR(50),
-  issue TEXT,
-  status ENUM('pending', 'confirmed', 'cancelled') DEFAULT 'pending',
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  name VARCHAR(255) NOT NULL,
+  phone VARCHAR(50) NOT NULL,
+  email VARCHAR(255),
+  source VARCHAR(50) NOT NULL, -- e.g., 'booking', 'contact', 'assessment'
+  service VARCHAR(255),
+  message TEXT,
+  status VARCHAR(50) NOT NULL DEFAULT 'new', -- e.g., 'new', 'contacted', 'scheduled'
+  createdAt DATETIME NOT NULL
 );
 
--- AI Lead Tracking (Step 3/4)
-CREATE TABLE IF NOT EXISTS ai_leads (
+-- Table for the Before & After gallery
+CREATE TABLE IF NOT EXISTS gallery (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  lead_name VARCHAR(100),
-  lead_type VARCHAR(50), -- e.g., 'smile-preview', 'treatment-recommend'
-  details JSON,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  category VARCHAR(255) NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  imageUrl TEXT NOT NULL,
+  createdAt DATETIME NOT NULL
 );
