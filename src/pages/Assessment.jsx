@@ -124,11 +124,12 @@ const AssessmentPage = () => {
               >
                 {t('assessment.retakeBtn')}
               </button>
-              <button
-                className="flex-1 bg-[color:var(--teal)] text-white py-3 rounded-xl font-bold hover:bg-[color:var(--dk)] transition"
+              <Link
+                to="/booking"
+                className="flex-1 bg-[color:var(--teal)] text-white py-3 rounded-xl font-bold hover:bg-[color:var(--dk)] transition text-center"
               >
                 {t('assessment.bookConsultBtn')}
-              </button>
+              </Link>
             </div>
           </div>
         ) : (

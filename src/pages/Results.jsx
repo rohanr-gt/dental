@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const API_BASE = '';
@@ -139,9 +140,12 @@ const ResultsPage = () => {
         <div className="bg-gradient-to-r from-[color:var(--teal)] to-[color:var(--dk)] rounded-3xl p-12 text-center text-white">
           <h2 className="text-4xl font-serif font-bold mb-4">{t('services.readyTitle')}</h2>
           <p className="text-white/80 mb-8 text-lg">{t('services.readySub')}</p>
-          <button className="bg-white text-[color:var(--dk)] px-10 py-4 rounded-xl font-bold text-lg hover:bg-[color:var(--soft)] transition-colors shadow-lg">
+          <Link 
+            to="/booking"
+            className="bg-white text-[color:var(--dk)] px-10 py-4 rounded-xl font-bold text-lg hover:bg-[color:var(--soft)] transition-colors shadow-lg inline-block"
+          >
             {t('services.bookNowBtn')}
-          </button>
+          </Link>
         </div>
       </div>
       </div>
