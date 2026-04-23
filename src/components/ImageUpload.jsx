@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const ImageUpload = () => {
+  const { t } = useLanguage();
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -126,15 +128,15 @@ const ImageUpload = () => {
         <div className="md:flex">
           {/* Upload Section */}
           <div className="md:w-1/2 p-12 bg-[color:var(--deep)] text-white">
-            <h2 className="text-3xl font-serif font-bold mb-6">AI Smile Preview</h2>
+            <h2 className="text-3xl font-serif font-bold mb-6">{t('aiPreview.title')}</h2>
             <p className="text-white/70 mb-8 leading-relaxed">
-              Upload a photo of your smile, and our AI will simulate your perfect transformation with veneers, aligners, or whitening.
+              {t('aiPreview.subtitle')}
             </p>
             
             <label className="block w-full border-2 border-dashed border-white/20 rounded-2xl p-10 text-center cursor-pointer hover:bg-white/5 transition-colors">
               <input type="file" className="hidden" onChange={handleImageChange} accept="image/*" />
               <div className="text-4xl mb-4">📸</div>
-              <span className="font-bold">Select Photo</span>
+              <span className="font-bold">{t('aiPreview.btnUpload')}</span>
               <p className="text-xs text-white/50 mt-2">JPG, PNG up to 10MB</p>
             </label>
 
@@ -144,7 +146,7 @@ const ImageUpload = () => {
                 disabled={loading}
                 className="w-full mt-8 bg-[color:var(--teal)] text-white py-4 rounded-xl font-bold text-lg hover:bg-[color:var(--dk)] disabled:opacity-50 transition-all shadow-xl shadow-black/30"
               >
-                {loading ? 'AI Processing...' : 'Simulate Future Smile'}
+                {loading ? 'AI Processing...' : t('aiPreview.btnProcess')}
               </button>
             )}
           </div>
@@ -176,7 +178,7 @@ const ImageUpload = () => {
                   )}
                 </div>
                 <p className="mt-6 text-sm text-gray-400 text-center">
-                  * This is an AI-generated simulation. Clinical results may vary.
+                  {t('aiPreview.disclaimer')}
                 </p>
               </div>
             )}

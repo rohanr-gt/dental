@@ -4,8 +4,10 @@ import axios from 'axios';
 import smileImg from '../images/smile design after.png';
 import alignersImg from '../images/braces and aligners after.png';
 import implantsImg from '../images/dental implant after.png';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const Home = () => {
+  const { t } = useLanguage();
   const [contactData, setContactData] = useState({
     firstName: '',
     lastName: '',
@@ -71,27 +73,27 @@ const Home = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-[color:var(--deep)]/95 via-[color:var(--deep)]/80 to-[color:var(--deep)]/10" />
         <div className="relative z-10 max-w-3xl text-white">
           <div className="inline-block bg-[color:var(--teal)]/20 border border-[color:var(--teal)]/30 text-[#C9A24A] px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-8">
-            International Centre of Excellence
+            {t('home.excellence')}
           </div>
           <h1 className="text-5xl sm:text-6xl md:text-8xl font-serif font-bold leading-[1.1] mb-6">
-            Where Perfect <br />
-            <span className="italic text-[#C9A24A]">Smiles</span> Are Crafted
+            {t('home.wherePerfect')} <br />
+            <span className="italic text-[#C9A24A]">{t('home.smiles')}</span> {t('home.crafted')}
           </h1>
           <p className="text-xl text-white/70 mb-12 max-w-2xl leading-relaxed">
-            Advanced dentistry for patients worldwide. Precision technology, accredited expertise, and genuine compassion — from consultation to your confident new smile.
+            {t('home.heroSubtitle')}
           </p>
           <div className="flex flex-wrap gap-4">
             <Link to="/booking" className="bg-[color:var(--teal)] text-white px-10 py-4 rounded-2xl font-bold text-lg hover:bg-[color:var(--dk)] transition-all shadow-xl shadow-black/30 active:scale-95">
-              Book Consultation
+              {t('home.bookConsultation')}
             </Link>
           </div>
 
           <div className="mt-14 grid grid-cols-2 sm:grid-cols-4 gap-8 max-w-2xl">
             {[
-              { n: '25K+', l: 'Happy Patients' },
-              { n: '40+', l: 'Countries' },
-              { n: '18 yrs', l: 'Excellence' },
-              { n: '4.9★', l: 'Rating' }
+              { n: '25K+', l: t('home.happyPatients') },
+              { n: '40+', l: t('home.countries') },
+              { n: '18 yrs', l: t('home.excellenceYrs') },
+              { n: '4.9★', l: t('home.rating') }
             ].map((s) => (
               <div key={s.l}>
                 <div className="font-serif text-3xl text-[#C9A24A] font-bold leading-none">{s.n}</div>
@@ -106,11 +108,11 @@ const Home = () => {
       <section className="bg-[color:var(--soft)] border-y border-black/5 px-6 py-6">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-center gap-x-12 gap-y-4 text-sm text-[color:var(--muted)]">
           {[
-            { t: 'JCI Accredited', d: 'Facility' },
-            { t: 'ISO 9001:2015', d: 'Certified' },
-            { t: '15+', d: 'Specialist Doctors' },
-            { t: '40+ Countries', d: 'International Patients' },
-            { t: 'Same‑Day', d: 'Emergency Care' }
+            { t: t('home.trust.jci'), d: t('home.trust.jciD') },
+            { t: t('home.trust.iso'), d: t('home.trust.isoD') },
+            { t: t('home.trust.docs'), d: t('home.trust.docsD') },
+            { t: t('home.trust.patients'), d: t('home.trust.patientsD') },
+            { t: t('home.trust.emergency'), d: t('home.trust.emergencyD') }
           ].map((x) => (
             <div key={x.t} className="flex items-center gap-2">
               <span className="inline-flex w-2 h-2 rounded-full bg-[color:var(--teal)]" />
@@ -133,29 +135,27 @@ const Home = () => {
           <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent" />
           <div className="absolute bottom-6 left-6 bg-white/95 rounded-2xl px-6 py-5 shadow-2xl">
             <div className="font-serif text-4xl font-bold text-[color:var(--teal)] leading-none">18+</div>
-            <div className="text-sm text-[color:var(--muted)] mt-1">Years of international excellence</div>
+            <div className="text-sm text-[color:var(--muted)] mt-1">{t('home.excellenceYrs')}</div>
           </div>
         </div>
         <div className="bg-[color:var(--bg)] px-6 py-20 lg:px-16 flex items-center">
           <div className="max-w-xl">
             <div className="text-xs font-bold tracking-[0.3em] uppercase text-[color:var(--teal)] mb-4">
-              About SmileVista
+              {t('home.aboutTitle')}
             </div>
             <h2 className="text-4xl md:text-5xl font-serif font-bold text-[color:var(--dk)] leading-tight">
-              More than a clinic — <br />
-              a <span className="italic text-[color:var(--teal)]">global smile</span> centre
+              {t('home.aboutH2')}
             </h2>
             <p className="mt-6 text-[color:var(--muted)] leading-relaxed">
-              Founded by internationally trained specialists, SmileVista combines cutting‑edge technology with genuine warmth. We
-              treat local families and international travelers with the same high‑touch care, from consultation to aftercare.
+              {t('home.aboutP')}
             </p>
 
             <div className="mt-10 grid sm:grid-cols-2 gap-6">
               {[
-                { i: '🔬', t: '3D Digital Planning', d: 'Preview your smile with CBCT + digital design workflow.' },
-                { i: '🌍', t: 'International Concierge', d: 'Travel, hotel, airport pickup — coordinated end‑to‑end.' },
-                { i: '🛡️', t: 'Lifetime Aftercare', d: 'Remote check‑ins and support after you return home.' },
-                { i: '💤', t: 'Anxiety‑Friendly Care', d: 'Gentle approach with modern comfort options.' }
+                { i: '🔬', t: t('home.aboutF1Title'), d: t('home.aboutF1Desc') },
+                { i: '🌍', t: t('home.aboutF2Title'), d: t('home.aboutF2Desc') },
+                { i: '🛡️', t: t('home.aboutF3Title'), d: t('home.aboutF3Desc') },
+                { i: '💤', t: t('home.aboutF4Title'), d: t('home.aboutF4Desc') }
               ].map((f) => (
                 <div key={f.t} className="flex gap-4">
                   <div className="w-11 h-11 rounded-xl bg-[color:var(--soft)] flex items-center justify-center text-lg">
@@ -174,13 +174,13 @@ const Home = () => {
                 to="/booking"
                 className="bg-[color:var(--teal)] text-white px-8 py-3 rounded-xl font-bold hover:bg-[color:var(--dk)] transition"
               >
-                Schedule a Visit →
+                {t('home.scheduleVisit')} →
               </Link>
               <Link
                 to="/assessment"
                 className="border-2 border-[color:var(--teal)] text-[color:var(--teal)] px-8 py-3 rounded-xl font-bold hover:bg-[color:var(--soft)] transition"
               >
-                Take Smile Quiz →
+                {t('home.takeQuiz')} →
               </Link>
             </div>
           </div>
@@ -194,42 +194,42 @@ const Home = () => {
         <div className="max-w-7xl mx-auto text-center mb-24 relative z-10">
           <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-[color:var(--soft)] border border-[color:var(--teal)]/10 text-[color:var(--teal)] text-xs font-bold uppercase tracking-[0.2em] mb-6">
             <span className="w-2 h-2 rounded-full bg-[color:var(--teal)] animate-pulse" />
-            Signature Treatments
+            {t('home.signatureTreatments')}
           </div>
           <h2 className="text-5xl md:text-6xl font-serif font-bold text-[color:var(--dk)] mb-6 leading-tight">
-            Crafting Your <span className="italic text-gradient">Perfect Smile</span>
+            {t('home.crafted')} {t('home.wherePerfect')} <span className="italic text-gradient">{t('home.perfectSmile')}</span>
           </h2>
           <p className="text-[color:var(--muted)] max-w-2xl mx-auto text-lg leading-relaxed font-medium">
-            Where advanced precision meets aesthetic artistry. Explore our most sought‑after dental transformations.
+            {t('home.heroSubtitle')}
           </p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 max-w-7xl mx-auto relative z-10">
           {[
             { 
-              title: "Smile Designing", 
+              title: t('nav.smileDesigning'), 
               path: "/smile-designing", 
               icon: "https://parthadental.com/wp-content/uploads/2022/09/cosmetic-dentistry-750x750.jpg", 
               isImage: true,
-              desc: "Digital planning for anatomical perfection and facial harmony.",
+              desc: t('home.service1Desc'),
               accent: "from-amber-50 to-orange-50",
               num: "01"
             },
             { 
-              title: "Aligners & Braces", 
+              title: t('nav.alignersBraces'), 
               path: "/aligners-braces", 
               icon: "https://dentistry.uic.edu/wp-content/uploads/sites/741/2020/10/iStock-501427146-1090x595.jpg", 
               isImage: true,
-              desc: "Discreet orthodontic solutions for a lifetime of confidence.",
+              desc: t('home.service2Desc'),
               accent: "from-blue-50 to-indigo-50",
               num: "02"
             },
             { 
-              title: "Dental Implants", 
+              title: t('nav.dentalImplants'), 
               path: "/dental-implants", 
               icon: "https://www.sanmarcosdental.com/blog/wp-content/uploads/implant-diagram.jpeg", 
               isImage: true,
-              desc: "Bio-compatible restorations that feel and function like natural teeth.",
+              desc: t('home.service3Desc'),
               accent: "from-emerald-50 to-teal-50",
               num: "03"
             }
@@ -257,7 +257,7 @@ const Home = () => {
                 
                 <div className="mt-auto pt-6 border-t border-black/5 flex items-center justify-between">
                   <span className="text-[color:var(--teal)] font-bold flex items-center gap-2 text-lg">
-                    Discover More 
+                    {t('home.discoverMore')} 
                     <span className="group-hover:translate-x-2 transition-transform duration-300">→</span>
                   </span>
                   <div className="w-10 h-10 rounded-full border border-black/5 flex items-center justify-center group-hover:bg-[color:var(--soft)] group-hover:border-transparent transition-colors">
@@ -276,12 +276,12 @@ const Home = () => {
       {/* Doctors */}
       <section className="py-24 px-6 bg-[color:var(--bg)]">
         <div className="max-w-7xl mx-auto text-center">
-          <div className="text-xs font-bold tracking-[0.3em] uppercase text-[color:var(--teal)] mb-4">Meet the Team</div>
+          <div className="text-xs font-bold tracking-[0.3em] uppercase text-[color:var(--teal)] mb-4">{t('home.doctors.title')}</div>
           <h2 className="text-4xl md:text-5xl font-serif font-bold text-[color:var(--dk)] mb-6">
-            World‑trained <span className="italic text-[color:var(--teal)]">specialists</span>
+            <span dangerouslySetInnerHTML={{ __html: t('home.doctors.subtitle').replace('{specialists}', `<span className="italic text-[color:var(--teal)]">${t('home.doctors.specialists')}</span>`) }} />
           </h2>
           <p className="text-[color:var(--muted)] max-w-3xl mx-auto leading-relaxed">
-            Our clinicians hold advanced fellowships and deliver results with a balance of clinical precision and aesthetic artistry.
+            {t('home.doctors.desc')}
           </p>
         </div>
 
@@ -289,22 +289,22 @@ const Home = () => {
           {[
             {
               name: 'Dr. Rohan Mehta',
-              role: 'Founder & Chief Dental Surgeon',
-              tag: 'Oral & Maxillofacial',
+              role: t('home.doctors.founder'),
+              tag: t('home.doctors.oralMax'),
               img: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=900&q=85',
               exp: '20+ years'
             },
             {
               name: 'Dr. Priya Sharma',
-              role: 'Lead Cosmetic & Aesthetic Dentist',
-              tag: 'Cosmetic & Aesthetic',
+              role: t('home.doctors.leadCosmetic'),
+              tag: t('home.doctors.cosmeticAesthetic'),
               img: 'https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=900&q=85',
               exp: '14 years'
             },
             {
               name: 'Dr. Arjun Nair',
-              role: 'Senior Implantologist',
-              tag: 'Implantology',
+              role: t('home.doctors.seniorImplant'),
+              tag: t('home.doctors.implantology'),
               img: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=900&q=85',
               exp: '16 years'
             }
@@ -320,7 +320,7 @@ const Home = () => {
                 <div className="font-serif text-2xl font-bold text-[color:var(--dk)]">{d.name}</div>
                 <div className="text-sm text-[color:var(--muted)] mt-1">{d.role}</div>
                 <div className="mt-4 text-sm text-[color:var(--muted)]">
-                  Trained internationally · <span className="font-bold text-[color:var(--teal)]">{d.exp}</span>
+                  {t('home.doctors.trained')} · <span className="font-bold text-[color:var(--teal)]">{d.exp}</span>
                 </div>
               </div>
             </div>
@@ -332,20 +332,19 @@ const Home = () => {
       <section className="py-24 px-6 bg-[color:var(--soft)]">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-14 items-start">
           <div>
-            <div className="text-xs font-bold tracking-[0.3em] uppercase text-[color:var(--teal)] mb-4">Medical Tourism</div>
+            <div className="text-xs font-bold tracking-[0.3em] uppercase text-[color:var(--teal)] mb-4">{t('home.tourism.title')}</div>
             <h2 className="text-4xl md:text-5xl font-serif font-bold text-[color:var(--dk)] leading-tight">
-              Your journey to a <br />
-              better <span className="italic text-[color:var(--teal)]">smile</span>
+              <span dangerouslySetInnerHTML={{ __html: t('home.tourism.subtitle').replace('{better}', `<span className="italic text-[color:var(--teal)]">${t('home.tourism.better')}</span>`) }} />
             </h2>
             <p className="mt-6 text-[color:var(--muted)] leading-relaxed">
-              Save 40–70% on world‑class dentistry. Our team helps with travel guidance, accommodation partners, and aftercare so you can focus on your treatment.
+              {t('home.tourism.desc')}
             </p>
             <div className="mt-8 space-y-5">
               {[
-                { n: '1', t: 'Free virtual consultation', d: 'Share X‑rays/photos. Receive a plan and estimate within 24 hours.' },
-                { n: '2', t: 'Travel & accommodation', d: 'Airport pickup + partner hotels minutes from the clinic.' },
-                { n: '3', t: 'Treatment at SmileVista', d: 'Most multi‑procedure packages completed in 5–10 days.' },
-                { n: '4', t: 'Lifetime remote aftercare', d: 'Digital records and follow‑ups after you return home.' }
+                { n: '1', t: t('home.tourism.step1Title'), d: t('home.tourism.step1Desc') },
+                { n: '2', t: t('home.tourism.step2Title'), d: t('home.tourism.step2Desc') },
+                { n: '3', t: t('home.tourism.step3Title'), d: t('home.tourism.step3Desc') },
+                { n: '4', t: t('home.tourism.step4Title'), d: t('home.tourism.step4Desc') }
               ].map((s) => (
                 <div key={s.n} className="flex gap-4 border-b border-black/5 pb-5">
                   <div className="w-11 h-11 rounded-full bg-[color:var(--teal)] text-white font-bold flex items-center justify-center flex-shrink-0">
@@ -363,7 +362,7 @@ const Home = () => {
                 to="/booking"
                 className="bg-[color:var(--teal)] text-white px-8 py-3 rounded-xl font-bold hover:bg-[color:var(--dk)] transition inline-flex"
               >
-                Plan My Dental Trip →
+                {t('home.tourism.btn')} →
               </Link>
             </div>
           </div>
@@ -378,16 +377,16 @@ const Home = () => {
               <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/60" />
             </div>
             <div className="p-10">
-              <div className="font-serif text-3xl font-bold">Why India for dentistry?</div>
+              <div className="font-serif text-3xl font-bold">{t('home.tourism.whyTitle')}</div>
               <p className="text-white/60 mt-3 leading-relaxed">
-                World‑class outcomes at a fraction of the cost — with doctors trained in leading global institutions.
+                {t('home.tourism.whyDesc')}
               </p>
               <div className="mt-8 grid grid-cols-2 gap-4">
                 {[
-                  { i: '✈️', t: 'Direct flights', d: 'From UAE, UK, US, AU + more' },
-                  { i: '🏨', t: 'Hotel partners', d: '4★ & 5★ at exclusive rates' },
-                  { i: '👨‍⚕️', t: 'Specialist team', d: 'Cosmetic, implants, aligners' },
-                  { i: '📋', t: 'Visa support', d: 'Documents + medical letter' }
+                  { i: '✈️', t: t('home.tourism.feat1Title'), d: t('home.tourism.feat1Desc') },
+                  { i: '🏨', t: t('home.tourism.feat2Title'), d: t('home.tourism.feat2Desc') },
+                  { i: '👨‍⚕️', t: t('home.tourism.feat3Title'), d: t('home.tourism.feat3Desc') },
+                  { i: '📋', t: t('home.tourism.feat4Title'), d: t('home.tourism.feat4Desc') }
                 ].map((x) => (
                   <div key={x.t} className="bg-white/5 border border-white/10 rounded-2xl p-4">
                     <div className="text-xl">{x.i}</div>
@@ -399,8 +398,8 @@ const Home = () => {
               <div className="mt-6 rounded-2xl bg-gradient-to-r from-[color:var(--teal)] to-[#6B8F71] p-5 flex items-center gap-4">
                 <div className="font-serif text-5xl font-bold leading-none">70%</div>
                 <div>
-                  <div className="font-bold">Average cost savings</div>
-                  <div className="text-sm text-white/80">vs. equivalent care in UK, USA, or Australia</div>
+                  <div className="font-bold">{t('home.tourism.savings')}</div>
+                  <div className="text-sm text-white/80">{t('home.tourism.vsCare')}</div>
                 </div>
               </div>
             </div>
@@ -412,14 +411,13 @@ const Home = () => {
       <section className="py-24 px-6 bg-[color:var(--bg)]">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-end">
           <div>
-            <div className="text-xs font-bold tracking-[0.3em] uppercase text-[color:var(--teal)] mb-4">Patient stories</div>
+            <div className="text-xs font-bold tracking-[0.3em] uppercase text-[color:var(--teal)] mb-4">{t('home.testimonials.title')}</div>
             <h2 className="text-4xl md:text-5xl font-serif font-bold text-[color:var(--dk)] leading-tight">
-              Smiles shared <br />
-              <span className="italic text-[color:var(--teal)]">across the globe</span>
+              <span dangerouslySetInnerHTML={{ __html: t('home.testimonials.subtitle').replace('{across}', `<span className="italic text-[color:var(--teal)]">${t('home.testimonials.across')}</span>`) }} />
             </h2>
           </div>
           <p className="text-[color:var(--muted)] leading-relaxed">
-            Real patients, real results — from London to Lagos, Sydney to São Paulo. Every smile tells a story of trust.
+            {t('home.testimonials.desc')}
           </p>
         </div>
 
@@ -427,17 +425,17 @@ const Home = () => {
           {[
             {
               feat: true,
-              q: '“I flew from Dubai for a full mouth reconstruction. From the first WhatsApp consult to the final fitting, everything was seamless. Worth every hour of travel.”',
+              q: t('home.testimonials.t1'),
               n: 'Sara Al‑Hamdan',
               l: 'Dubai, UAE'
             },
             {
-              q: '“I dreaded dentists, but here I felt completely at ease. Outstanding quality and value compared to UK prices.”',
+              q: t('home.testimonials.t2'),
               n: 'James Mitchell',
               l: 'Manchester, UK'
             },
             {
-              q: '“My veneers are perfect. I consulted in three countries — the quality here exceeded all of them at a third of the price.”',
+              q: t('home.testimonials.t3'),
               n: 'Anna Petrova',
               l: 'Moscow, Russia'
             }
@@ -466,34 +464,33 @@ const Home = () => {
       <section id="contact" className="py-24 px-6 bg-gradient-to-br from-[color:var(--deep)] to-[color:var(--dk)] text-white">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-14 items-start">
           <div>
-            <div className="text-xs font-bold tracking-[0.3em] uppercase text-[#C9A24A] mb-4">Get in touch</div>
+            <div className="text-xs font-bold tracking-[0.3em] uppercase text-[#C9A24A] mb-4">{t('home.contact.title')}</div>
             <h2 className="text-4xl md:text-5xl font-serif font-bold leading-tight">
-              Book your <br />
-              <span className="italic text-[color:var(--teal)]">free consultation</span>
+              <span dangerouslySetInnerHTML={{ __html: t('home.contact.subtitle').replace('{free}', `<span className="italic text-[color:var(--teal)]">${t('home.contact.free')}</span>`) }} />
             </h2>
             <p className="mt-6 text-white/65 leading-relaxed max-w-xl">
-              Whether local or international, our team creates your personalized plan. First consultations are free and include a complete digital assessment.
+              {t('home.contact.desc')}
             </p>
             <div className="mt-10 space-y-4 text-white/80">
               <div className="flex gap-4 items-start">
                 <div className="w-11 h-11 rounded-xl bg-white/10 border border-white/10 flex items-center justify-center">📞</div>
                 <div>
                   <div className="font-bold text-white">+91 98765 43210</div>
-                  <div className="text-sm text-white/55">Mon–Sat, 9 AM – 8 PM IST</div>
+                  <div className="text-sm text-white/55">{t('home.contact.phone')}</div>
                 </div>
               </div>
               <div className="flex gap-4 items-start">
                 <div className="w-11 h-11 rounded-xl bg-white/10 border border-white/10 flex items-center justify-center">📧</div>
                 <div>
                   <div className="font-bold text-white">hello@smilevista.com</div>
-                  <div className="text-sm text-white/55">Response within 2 hours</div>
+                  <div className="text-sm text-white/55">{t('home.contact.email')}</div>
                 </div>
               </div>
               <div className="flex gap-4 items-start">
                 <div className="w-11 h-11 rounded-xl bg-white/10 border border-white/10 flex items-center justify-center">📍</div>
                 <div>
-                  <div className="font-bold text-white">Koramangala, Bengaluru, India</div>
-                  <div className="text-sm text-white/55">15 mins from the city center</div>
+                  <div className="font-bold text-white">{t('home.contact.locName')}</div>
+                  <div className="text-sm text-white/55">{t('home.contact.location')}</div>
                 </div>
               </div>
             </div>
@@ -503,8 +500,8 @@ const Home = () => {
             {submitted ? (
               <div className="text-center py-10">
                 <div className="text-5xl mb-4">🚀</div>
-                <h3 className="text-2xl font-serif font-bold text-[color:var(--dk)] mb-4">Message Sent!</h3>
-                <p className="text-[color:var(--muted)] mb-8">Thank you for reaching out. We'll get back to you shortly.</p>
+                <h3 className="text-2xl font-serif font-bold text-[color:var(--dk)] mb-4">{t('home.contact.sentTitle')}</h3>
+                <p className="text-[color:var(--muted)] mb-8">{t('home.contact.sentSub')}</p>
                 <div className="flex flex-col gap-4">
                   <a 
                     href={`https://wa.me/919731065325?text=${encodeURIComponent(
@@ -514,22 +511,22 @@ const Home = () => {
                     rel="noopener noreferrer"
                     className="bg-green-500 text-white px-8 py-3 rounded-xl font-bold hover:bg-green-600 transition flex items-center justify-center gap-2"
                   >
-                    <span>Follow up on WhatsApp</span>
+                    <span>{t('home.contact.btnWhatsapp')}</span>
                     <span className="text-xl">💬</span>
                   </a>
                   <button onClick={() => setSubmitted(false)} className="text-[color:var(--teal)] font-bold">
-                    Send another message
+                    {t('home.contact.btnAnother')}
                   </button>
                 </div>
               </div>
             ) : (
               <>
-                <h3 className="font-serif text-3xl font-bold text-[color:var(--dk)]">Request an appointment</h3>
-                <p className="text-[color:var(--muted)] mt-2">Fill out this quick form and we'll reach out to schedule your free consultation.</p>
+                <h3 className="font-serif text-3xl font-bold text-[color:var(--dk)]">{t('home.contact.formTitle')}</h3>
+                <p className="text-[color:var(--muted)] mt-2">{t('home.contact.formSub')}</p>
 
                 <form onSubmit={handleContactSubmit} className="mt-8 grid sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wide text-[color:var(--muted)] mb-2">First name</label>
+                    <label className="block text-xs font-bold uppercase tracking-wide text-[color:var(--muted)] mb-2">{t('home.contact.firstName')}</label>
                     <input 
                       name="firstName"
                       value={contactData.firstName}
@@ -540,7 +537,7 @@ const Home = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wide text-[color:var(--muted)] mb-2">Last name</label>
+                    <label className="block text-xs font-bold uppercase tracking-wide text-[color:var(--muted)] mb-2">{t('home.contact.lastName')}</label>
                     <input 
                       name="lastName"
                       value={contactData.lastName}
@@ -551,7 +548,7 @@ const Home = () => {
                     />
                   </div>
                   <div className="sm:col-span-2">
-                    <label className="block text-xs font-bold uppercase tracking-wide text-[color:var(--muted)] mb-2">Email</label>
+                    <label className="block text-xs font-bold uppercase tracking-wide text-[color:var(--muted)] mb-2">{t('home.contact.emailLabel')}</label>
                     <input 
                       name="email"
                       type="email"
@@ -563,13 +560,13 @@ const Home = () => {
                     />
                   </div>
                   <div className="sm:col-span-2">
-                    <label className="block text-xs font-bold uppercase tracking-wide text-[color:var(--muted)] mb-2">Message</label>
+                    <label className="block text-xs font-bold uppercase tracking-wide text-[color:var(--muted)] mb-2">{t('home.contact.messageLabel')}</label>
                     <textarea 
                       name="message"
                       value={contactData.message}
                       onChange={handleContactChange}
                       className="w-full bg-[color:var(--bg)] border border-black/10 rounded-xl px-4 py-3 h-28 resize-none focus:outline-none focus:border-[color:var(--teal)]" 
-                      placeholder="Tell us what you want to improve..." 
+                      placeholder={t('home.contact.messagePlaceholder')} 
                     />
                   </div>
                   <div className="sm:col-span-2 mt-4">
@@ -578,14 +575,14 @@ const Home = () => {
                       disabled={loading}
                       className="w-full bg-[color:var(--teal)] text-white py-4 rounded-xl font-bold text-lg hover:bg-[color:var(--dk)] transition-colors disabled:opacity-50"
                     >
-                      {loading ? 'Sending...' : 'Send Message →'}
+                      {loading ? t('home.contact.btnSending') : t('home.contact.btnSend') + ' →'}
                     </button>
                   </div>
                 </form>
 
                 <div className="mt-8 pt-8 border-t border-gray-100 flex flex-wrap gap-4">
                   <Link to="/booking" className="text-[color:var(--teal)] font-bold hover:underline">
-                    Go to Full Booking Page →
+                    {t('home.contact.btnBooking')} →
                   </Link>
                 </div>
               </>

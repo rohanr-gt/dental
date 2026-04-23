@@ -1,24 +1,26 @@
 import React from 'react';
 import ServicePage from '../components/ServicePage';
+import { useLanguage } from '../contexts/LanguageContext';
 import smileDesignBefore from '../images/smile design before.png';
 import smileDesignAfter from '../images/smile design after.png';
 import smileDesignBg from '../images/smile desighning background.png';
 
 const SmileDesigning = () => {
+  const { t } = useLanguage();
   const data = {
-    title: "Digital Smile Designing",
-    subtitle: "Precision-engineered smile makeovers tailored to your facial features and personality.",
+    title: t('smileDesigning.title'),
+    subtitle: t('smileDesigning.subtitle'),
     heroImg: smileDesignBg,
     benefits: [
-      { icon: "🎨", title: "Aesthetic Harmony", desc: "We align your teeth according to the 'Golden Ratio' for perfect facial symmetry." },
-      { icon: "🔬", title: "3D Visualisation", desc: "See your future smile on-screen before we even touch your teeth." },
-      { icon: "⚡", title: "Single Day Procedure", desc: "Many of our smile design cases are completed in just one or two sessions." }
+      { icon: "🎨", title: t('smileDesigning.benefit1Title'), desc: t('smileDesigning.benefit1Desc') },
+      { icon: "🔬", title: t('smileDesigning.benefit2Title'), desc: t('smileDesigning.benefit2Desc') },
+      { icon: "⚡", title: t('smileDesigning.benefit3Title'), desc: t('smileDesigning.benefit3Desc') }
     ],
     steps: [
-      { title: "Digital Scan", desc: "We take high-res digital impressions with our intraoral scanner." },
-      { title: "Artistic Mapping", desc: "Our specialists design your smile curve on professional dental software." },
-      { title: "Trial Design", desc: "You try a temporary mockup to ensure you love the look and feel." },
-      { title: "Final Reveal", desc: "Premium E-max veneers or bonding are applied for your final look." }
+      { title: t('smileDesigning.step1Title'), desc: t('smileDesigning.step1Desc') },
+      { title: t('smileDesigning.step2Title'), desc: t('smileDesigning.step2Desc') },
+      { title: t('smileDesigning.step3Title'), desc: t('smileDesigning.step3Desc') },
+      { title: t('smileDesigning.step4Title'), desc: t('smileDesigning.step4Desc') }
     ],
     afterImg: "https://parthadental.com/wp-content/uploads/2022/09/cosmetic-dentistry-750x750.jpg"
   };

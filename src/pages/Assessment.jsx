@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const AssessmentPage = () => {
+  const { t } = useLanguage();
   const [step, setStep] = useState(1);
   const [answers, setAnswers] = useState({
     smile: '',
@@ -60,10 +62,10 @@ const AssessmentPage = () => {
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-12">
           <h1 className="text-5xl font-serif font-bold text-[color:var(--dk)] mb-4">
-            {recommendation ? 'Your Treatment Plan' : 'Smile Assessment Quiz'}
+            {recommendation ? t('assessment.resultTitle') : t('assessment.quizTitle')}
           </h1>
           <p className="text-[color:var(--muted)] text-lg">
-            {recommendation ? 'Based on your answers, here\'s what we recommend' : 'Answer a few quick questions to get personalized recommendations'}
+            {recommendation ? t('assessment.resultSub') : t('assessment.subtitle')}
           </p>
         </div>
 
@@ -72,7 +74,7 @@ const AssessmentPage = () => {
             <div className="text-center mb-8">
               <div className="text-6xl mb-4">🎯</div>
               <h2 className="text-3xl font-serif font-bold text-[color:var(--dk)] mb-4">
-                Recommended Treatment
+                {t('assessment.recTitle')}
               </h2>
               <p className="text-xl font-bold text-[color:var(--teal)] mb-8">
                 {recommendation.recommendedTreatment}
@@ -84,29 +86,29 @@ const AssessmentPage = () => {
                 <div className="text-3xl font-bold text-[color:var(--dk)] mb-2">
                   ${recommendation.estimatedCost?.toLocaleString()}
                 </div>
-                <p className="text-[color:var(--muted)]">Estimated Cost</p>
+                <p className="text-[color:var(--muted)]">{t('assessment.estCost')}</p>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold text-[color:var(--dk)] mb-2">
                   {recommendation.timeframe}
                 </div>
-                <p className="text-[color:var(--muted)]">Treatment Duration</p>
+                <p className="text-[color:var(--muted)]">{t('assessment.duration')}</p>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold text-[color:var(--dk)] mb-2">
                   95%+
                 </div>
-                <p className="text-[color:var(--muted)]">Success Rate</p>
+                <p className="text-[color:var(--muted)]">{t('assessment.successRate')}</p>
               </div>
             </div>
 
             <div className="bg-gradient-to-r from-[color:var(--teal)] to-[color:var(--dk)] rounded-2xl p-6 text-white mb-8">
-              <h3 className="font-bold text-lg mb-4">What happens next?</h3>
+              <h3 className="font-bold text-lg mb-4">{t('assessment.nextSteps')}</h3>
               <ul className="space-y-3">
-                <li>✅ Schedule your free consultation</li>
-                <li>✅ Advanced 3D digital imaging</li>
-                <li>✅ Detailed treatment plan & pricing</li>
-                <li>✅ Flexible payment options available</li>
+                <li>✅ {t('assessment.step1')}</li>
+                <li>✅ {t('assessment.step2')}</li>
+                <li>✅ {t('assessment.step3')}</li>
+                <li>✅ {t('assessment.step4')}</li>
               </ul>
             </div>
 
@@ -119,12 +121,12 @@ const AssessmentPage = () => {
                 }}
                 className="flex-1 bg-gray-200 text-gray-800 py-3 rounded-xl font-bold hover:bg-gray-300 transition"
               >
-                Retake Quiz
+                {t('assessment.retakeBtn')}
               </button>
               <button
                 className="flex-1 bg-[color:var(--teal)] text-white py-3 rounded-xl font-bold hover:bg-[color:var(--dk)] transition"
               >
-                Book Consultation Now
+                {t('assessment.bookConsultBtn')}
               </button>
             </div>
           </div>
@@ -133,7 +135,7 @@ const AssessmentPage = () => {
             {/* Progress Bar */}
             <div className="mb-8">
               <div className="flex justify-between mb-3">
-                <span className="text-sm font-bold text-[color:var(--teal)]">Question {step} of 5</span>
+                <span className="text-sm font-bold text-[color:var(--teal)]">{t('assessment.questionCount').replace('{step}', step)}</span>
                 <span className="text-sm font-bold text-gray-500">{Math.round((step / 5) * 100)}%</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
@@ -147,12 +149,12 @@ const AssessmentPage = () => {
             {/* Step 1 */}
             {step === 1 && (
               <div>
-                <h2 className="text-2xl font-bold text-[color:var(--dk)] mb-6">How happy are you with your current smile?</h2>
+                <h2 className="text-2xl font-bold text-[color:var(--dk)] mb-6">{t('assessment.q1Title')}</h2>
                 <div className="space-y-4">
                   {[
-                    { value: 'very-happy', label: '😊 Very happy - I love my smile!', classes: 'bg-green-100 border-green-600 text-green-900' },
-                    { value: 'somewhat-happy', label: '🙂 Somewhat happy - It\'s okay', classes: 'bg-yellow-100 border-yellow-600 text-yellow-900' },
-                    { value: 'not-happy', label: '😟 Not happy - I want to improve it', classes: 'bg-red-100 border-red-600 text-red-900' }
+                    { value: 'very-happy', label: t('assessment.q1Option1'), classes: 'bg-green-100 border-green-600 text-green-900' },
+                    { value: 'somewhat-happy', label: t('assessment.q1Option2'), classes: 'bg-yellow-100 border-yellow-600 text-yellow-900' },
+                    { value: 'not-happy', label: t('assessment.q1Option3'), classes: 'bg-red-100 border-red-600 text-red-900' }
                   ].map(option => (
                     <button
                       key={option.value}
@@ -173,13 +175,13 @@ const AssessmentPage = () => {
             {/* Step 2 */}
             {step === 2 && (
               <div>
-                <h2 className="text-2xl font-bold text-[color:var(--dk)] mb-6">Which best describes your teeth?</h2>
+                <h2 className="text-2xl font-bold text-[color:var(--dk)] mb-6">{t('assessment.q2Title')}</h2>
                 <div className="space-y-4">
                   {[
-                    { value: 'perfect', label: 'Perfectly aligned', emoji: '😁' },
-                    { value: 'crooked', label: 'Crooked or misaligned', emoji: '↔️' },
-                    { value: 'discolored', label: 'Discolored or stained', emoji: '🟡' },
-                    { value: 'chipped', label: 'Chipped or damaged', emoji: '⚠️' }
+                    { value: 'perfect', label: t('assessment.q2Option1'), emoji: '😁' },
+                    { value: 'crooked', label: t('assessment.q2Option2'), emoji: '↔️' },
+                    { value: 'discolored', label: t('assessment.q2Option3'), emoji: '🟡' },
+                    { value: 'chipped', label: t('assessment.q2Option4'), emoji: '⚠️' }
                   ].map(option => (
                     <button
                       key={option.value}
@@ -219,10 +221,10 @@ const AssessmentPage = () => {
                   <div className="bg-[color:var(--soft)] p-6 rounded-xl border border-black/5">
                     <p className="text-lg font-bold text-[color:var(--dk)]">
                       {answers.missingTeeth === 0
-                        ? '✅ No missing teeth'
+                        ? t('assessment.q3None')
                         : answers.missingTeeth < 5
-                        ? `⚠️ ${answers.missingTeeth} missing teeth - Implants recommended`
-                        : `🦷 ${answers.missingTeeth} missing teeth - Let\'s discuss options`}
+                        ? t('assessment.q3Few').replace('{count}', answers.missingTeeth)
+                        : t('assessment.q3Many').replace('{count}', answers.missingTeeth)}
                     </p>
                   </div>
                 </div>
@@ -235,9 +237,9 @@ const AssessmentPage = () => {
                 <h2 className="text-2xl font-bold text-[color:var(--dk)] mb-6">How often do you brush your teeth?</h2>
                 <div className="space-y-4">
                   {[
-                    { value: 'twice', label: '✅ Twice daily' },
-                    { value: 'once', label: '⚠️ Once daily' },
-                    { value: 'rarely', label: '❌ Rarely or occasionally' }
+                    { value: 'twice', label: t('assessment.q4Option1') },
+                    { value: 'once', label: t('assessment.q4Option2') },
+                    { value: 'rarely', label: t('assessment.q4Option3') }
                   ].map(option => (
                     <button
                       key={option.value}
@@ -258,13 +260,13 @@ const AssessmentPage = () => {
             {/* Step 5 */}
             {step === 5 && (
               <div>
-                <h2 className="text-2xl font-bold text-[color:var(--dk)] mb-6">Any specific dental concerns?</h2>
+                <h2 className="text-2xl font-bold text-[color:var(--dk)] mb-6">{t('assessment.q5Title')}</h2>
                 <textarea
                   value={answers.issue}
                   onChange={(e) => handleAnswer('issue', e.target.value)}
                   rows="5"
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-[color:var(--teal)] resize-none"
-                  placeholder="E.g., I have sensitive teeth, bad breath, or past dental trauma..."
+                  placeholder={t('assessment.q5Placeholder')}
                 ></textarea>
               </div>
             )}
@@ -276,7 +278,7 @@ const AssessmentPage = () => {
                 disabled={step === 1}
                 className="flex-1 bg-gray-200 text-gray-800 py-3 rounded-xl font-bold hover:bg-gray-300 transition disabled:opacity-50"
               >
-                ← Back
+                ← {t('assessment.backBtn')}
               </button>
               {step < 5 ? (
                 <button
@@ -289,7 +291,7 @@ const AssessmentPage = () => {
                   }
                   className="flex-1 bg-[color:var(--teal)] text-white py-3 rounded-xl font-bold hover:bg-[color:var(--dk)] transition disabled:opacity-50"
                 >
-                  Next →
+                  {t('assessment.nextBtn')} →
                 </button>
               ) : (
                 <button
@@ -297,7 +299,7 @@ const AssessmentPage = () => {
                   disabled={loading}
                   className="flex-1 bg-[color:var(--teal)] text-white py-3 rounded-xl font-bold hover:bg-[color:var(--dk)] transition disabled:opacity-50"
                 >
-                  {loading ? 'Processing...' : 'Get Recommendation 🎯'}
+                  {loading ? t('assessment.processBtn') : t('assessment.getRecBtn')}
                 </button>
               )}
             </div>

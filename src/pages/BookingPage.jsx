@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const BookingPage = () => {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -61,21 +63,21 @@ const BookingPage = () => {
     <div className="min-h-screen pt-24 md:pt-32 pb-20 px-4 bg-gradient-to-b from-[color:var(--soft)] to-white">
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-8 md:mb-12">
-          <h1 className="text-3xl md:text-5xl font-serif font-bold text-[color:var(--dk)] mb-4">Book Your Consultation</h1>
-          <p className="text-[color:var(--muted)] text-base md:text-lg">Zero-cost initial consultation with our expert dentists</p>
+          <h1 className="text-3xl md:text-5xl font-serif font-bold text-[color:var(--dk)] mb-4">{t('booking.title')}</h1>
+          <p className="text-[color:var(--muted)] text-base md:text-lg">{t('booking.subtitle')}</p>
         </div>
 
         {submitted ? (
           <div className="bg-green-50 border-2 border-green-500 rounded-3xl p-6 md:p-12 text-center">
             <div className="text-5xl md:text-6xl mb-4">✅</div>
-            <h2 className="text-2xl md:text-3xl font-serif font-bold text-green-900 mb-4">Appointment Confirmed!</h2>
-            <p className="text-green-700 mb-6 text-sm md:text-base">We've received your booking request. Our team will confirm your appointment within 2 hours via phone/email.</p>
+            <h2 className="text-2xl md:text-3xl font-serif font-bold text-green-900 mb-4">{t('booking.confirmed')}</h2>
+            <p className="text-green-700 mb-6 text-sm md:text-base">{t('booking.confirmedSub')}</p>
             {emailStatus ? (
               <p className="text-sm mb-6">
-                <strong>Email:</strong>{' '}
+                <strong>{t('booking.emailLabel')}</strong>{' '}
                 {emailStatus.sent ? (
                   <>
-                    Confirmation email sent.
+                    {t('booking.emailSent')}
                     {emailStatus.mode === 'ethereal' && emailStatus.previewUrl ? (
                       <>
                         {' '}
@@ -85,21 +87,21 @@ const BookingPage = () => {
                           rel="noopener noreferrer"
                           className="text-[color:var(--teal)] font-bold hover:underline"
                         >
-                          View email preview
+                          {t('booking.viewPreview')}
                         </a>
                       </>
                     ) : null}
                   </>
                 ) : (
-                  `Not sent (${emailStatus.reason || 'unknown'}).`
+                  t('booking.emailNotSent').replace('{reason}', emailStatus.reason || 'unknown')
                 )}
               </p>
             ) : null}
             <div className="bg-white rounded-2xl p-4 md:p-6 mb-6 text-left text-sm md:text-base">
-              <p className="text-gray-700 mb-2"><strong>Name:</strong> {formData.name || 'Pending'}</p>
-              <p className="text-gray-700 mb-2"><strong>Date:</strong> {formData.date}</p>
-              <p className="text-gray-700 mb-2"><strong>Time:</strong> {formData.time}</p>
-              <p className="text-gray-700"><strong>Service:</strong> {formData.service}</p>
+              <p className="text-gray-700 mb-2"><strong>{t('booking.nameLabel')}</strong> {formData.name || 'Pending'}</p>
+              <p className="text-gray-700 mb-2"><strong>{t('booking.dateLabel')}</strong> {formData.date}</p>
+              <p className="text-gray-700 mb-2"><strong>{t('booking.timeLabel')}</strong> {formData.time}</p>
+              <p className="text-gray-700"><strong>{t('booking.serviceLabel')}</strong> {t(`booking.services.${formData.service.replace('-', '')}`) || formData.service}</p>
             </div>
             <div className="flex flex-col gap-4">
               <a 
@@ -110,7 +112,7 @@ const BookingPage = () => {
                 rel="noopener noreferrer"
                 className="bg-green-500 text-white px-8 py-3 rounded-xl font-bold hover:bg-green-600 transition flex items-center justify-center gap-2"
               >
-                <span>Confirm on WhatsApp</span>
+                <span>{t('booking.whatsappBtn')}</span>
                 <span className="text-xl">💬</span>
               </a>
               <button 
@@ -129,7 +131,7 @@ const BookingPage = () => {
                 }} 
                 className="text-[color:var(--teal)] font-bold hover:underline"
               >
-                Book Another Appointment
+                {t('booking.bookAnother')}
               </button>
             </div>
           </div>
@@ -138,7 +140,7 @@ const BookingPage = () => {
             {/* Personal Info */}
             <div className="grid md:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-8">
               <div>
-                <label className="block text-[color:var(--dk)] font-bold mb-2">Full Name *</label>
+                <label className="block text-[color:var(--dk)] font-bold mb-2">{t('booking.fullName')}</label>
                 <input
                   type="text"
                   name="name"
@@ -150,7 +152,7 @@ const BookingPage = () => {
                 />
               </div>
               <div>
-                <label className="block text-[color:var(--dk)] font-bold mb-2">Phone Number *</label>
+                <label className="block text-[color:var(--dk)] font-bold mb-2">{t('booking.phone')}</label>
                 <input
                   type="tel"
                   name="phone"
@@ -164,7 +166,7 @@ const BookingPage = () => {
             </div>
 
             <div className="mb-6 md:mb-8">
-              <label className="block text-[color:var(--dk)] font-bold mb-2">Email Address</label>
+              <label className="block text-[color:var(--dk)] font-bold mb-2">{t('booking.email')}</label>
               <input
                 type="email"
                 name="email"
@@ -178,10 +180,10 @@ const BookingPage = () => {
 
             {/* Appointment Details */}
             <div className="bg-[color:var(--soft)] p-4 md:p-6 rounded-2xl mb-6 md:mb-8 border border-black/5">
-              <h3 className="text-lg font-bold text-[color:var(--dk)] mb-4 md:mb-6">Select Your Appointment</h3>
+              <h3 className="text-lg font-bold text-[color:var(--dk)] mb-4 md:mb-6">{t('booking.selectAppointment')}</h3>
               <div className="grid md:grid-cols-2 gap-4 md:gap-6 mb-6">
                 <div>
-                  <label className="block text-[color:var(--dk)] font-bold mb-2">Service *</label>
+                  <label className="block text-[color:var(--dk)] font-bold mb-2">{t('booking.servicePlaceholder')}</label>
                   <select
                     name="service"
                     value={formData.service}
@@ -189,14 +191,14 @@ const BookingPage = () => {
                     required
                     className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-[color:var(--teal)]"
                   >
-                    <option value="smile-designing">Digital Smile Designing</option>
-                    <option value="aligners">Aligners & Braces</option>
-                    <option value="implants">Dental Implants</option>
-                    <option value="consultation">General Consultation</option>
+                    <option value="smile-designing">{t('booking.services.smileDesigning')}</option>
+                    <option value="aligners">{t('booking.services.aligners')}</option>
+                    <option value="implants">{t('booking.services.implants')}</option>
+                    <option value="consultation">{t('booking.services.consultation')}</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-[color:var(--dk)] font-bold mb-2">Date *</label>
+                  <label className="block text-[color:var(--dk)] font-bold mb-2">{t('booking.datePlaceholder')}</label>
                   <input
                     type="date"
                     name="date"
@@ -210,7 +212,7 @@ const BookingPage = () => {
               </div>
 
               <div className="mb-4">
-                <label className="block text-[color:var(--dk)] font-bold mb-3">Time Slot *</label>
+                <label className="block text-[color:var(--dk)] font-bold mb-3">{t('booking.timeSlot')}</label>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 md:gap-3">
                   {availableSlots.map((slot) => (
                     <button
@@ -232,14 +234,14 @@ const BookingPage = () => {
 
             {/* Issue Description */}
             <div className="mb-6 md:mb-8">
-              <label className="block text-[color:var(--dk)] font-bold mb-2">Tell us about your dental goals</label>
+              <label className="block text-[color:var(--dk)] font-bold mb-2">{t('booking.goalsLabel')}</label>
               <textarea
                 name="issue"
                 value={formData.issue}
                 onChange={handleChange}
                 rows="4"
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-[color:var(--teal)]"
-                placeholder="E.g., I want to straighten my teeth, improve my smile, replace missing teeth, etc."
+                placeholder={t('booking.goalsPlaceholder')}
               ></textarea>
             </div>
 
@@ -249,11 +251,11 @@ const BookingPage = () => {
               disabled={loading}
               className="w-full bg-[color:var(--teal)] text-white py-4 rounded-xl font-bold text-lg hover:bg-[color:var(--dk)] transition-colors disabled:opacity-50"
             >
-              {loading ? 'Processing...' : 'Confirm Appointment'}
+              {loading ? t('booking.processing') : t('booking.confirmBtn')}
             </button>
 
             <p className="text-[color:var(--muted)] text-sm text-center mt-4">
-              ✓ Free consultation • ✓ Personalized treatment plan • ✓ No obligations
+              {t('booking.benefits')}
             </p>
           </form>
         )}
