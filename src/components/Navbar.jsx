@@ -24,6 +24,7 @@ const Navbar = () => {
 
   const navLinks = [
     { name: 'Home', path: '/' },
+    { name: 'About SmileVista', path: '/#about' },
     { name: 'AI Preview', path: '/ai-preview' },
     { name: 'Gallery', path: '/results' },
     { name: 'Assessment', path: '/assessment' },

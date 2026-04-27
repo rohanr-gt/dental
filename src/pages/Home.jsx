@@ -19,9 +19,10 @@ const Home = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (location.hash === '#contact') {
+    const hash = location.hash?.replace('#', '');
+    if (hash === 'contact' || hash === 'about') {
       setTimeout(() => {
-        const element = document.getElementById('contact');
+        const element = document.getElementById(hash);
         if (element) {
           element.scrollIntoView({ behavior: 'smooth' });
         }
@@ -125,7 +126,7 @@ const Home = () => {
       </section>
 
       {/* About Split */}
-      <section className="grid lg:grid-cols-2">
+      <section id="about" className="grid lg:grid-cols-2">
         <div className="relative min-h-[420px] overflow-hidden">
           <img
             src="https://static.vecteezy.com/system/resources/thumbnails/071/062/019/small/dental-checkup-examination-procedure-with-doctor-and-patient-free-photo.jpg"
