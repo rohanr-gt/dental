@@ -111,7 +111,11 @@ const translations = {
         desc: 'Real patients, real results — from London to Lagos, Sydney to São Paulo. Every smile tells a story of trust.',
         t1: '“I flew from Dubai for a full mouth reconstruction. From the first WhatsApp consult to the final fitting, everything was seamless. Worth every hour of travel.”',
         t2: '“I dreaded dentists, but here I felt completely at ease. Outstanding quality and value compared to UK prices.”',
-        t3: '“My veneers are perfect. I consulted in three countries — the quality here exceeded all of them at a third of the price.”'
+        t3: '“My veneers are perfect. I consulted in three countries — the quality here exceeded all of them at a third of the price.”',
+        experiencesTitle: 'Patient Experiences',
+        exp1: 'Got my implants done — feels just like natural teeth.',
+        exp2: 'Professional care and smooth experience from start to finish.',
+        exp3: 'Completely changed my confidence and quality of life.'
       },
       contact: {
         title: 'Get in touch',
@@ -329,7 +333,15 @@ const translations = {
       q5: 'Is smile designing permanent?',
       a5: 'Smile designs using veneers typically last 10-15 years. Bonding lasts 5-7 years. Regular maintenance and good oral hygiene extend longevity.',
       q6: 'Do you accept insurance?',
-      a6: 'Yes, we accept most dental insurance plans. Contact our team for details about your specific coverage and any pre-authorization requirements.'
+      a6: 'Yes, we accept most dental insurance plans. Contact our team for details about your specific coverage and any pre-authorization requirements.',
+      q7: 'How long do dental implants last?',
+      a7: 'With proper care, implants can last many years or even a lifetime.',
+      q8: 'Is the procedure painful?',
+      a8: 'The procedure is done under anesthesia and is generally comfortable.',
+      q9: 'How long does treatment take?',
+      a9: 'Most implant treatments are completed within 3–7 days depending on the case.',
+      q10: 'Can I travel for treatment?',
+      a10: 'Yes, we provide structured plans for outstation and international patients.'
     }
   },
   es: {

@@ -28,7 +28,11 @@ const FAQPage = () => {
         { id: 3, category: 'aligners', question: t('faq.q3'), answer: t('faq.a3') },
         { id: 4, category: 'general', question: t('faq.q4'), answer: t('faq.a4') },
         { id: 5, category: 'smile-designing', question: t('faq.q5'), answer: t('faq.a5') },
-        { id: 6, category: 'general', question: t('faq.q6'), answer: t('faq.a6') }
+        { id: 6, category: 'general', question: t('faq.q6'), answer: t('faq.a6') },
+        { id: 7, category: 'implants', question: t('faq.q7'), answer: t('faq.a7') },
+        { id: 8, category: 'implants', question: t('faq.q8'), answer: t('faq.a8') },
+        { id: 9, category: 'implants', question: t('faq.q9'), answer: t('faq.a9') },
+        { id: 10, category: 'implants', question: t('faq.q10'), answer: t('faq.a10') }
       ]);
       setLoading(false);
     }

@@ -439,23 +439,51 @@ const Home = () => {
               q: t('home.testimonials.t3'),
               n: 'Anna Petrova',
               l: 'Moscow, Russia'
+            },
+            {
+              group: true,
+              title: t('home.testimonials.experiencesTitle'),
+              quotes: [
+                t('home.testimonials.exp1'),
+                t('home.testimonials.exp2'),
+                t('home.testimonials.exp3')
+              ]
             }
-          ].map((t) => (
+          ].map((item, index) => (
             <div
-              key={t.n}
+              key={item.group ? `group-${index}` : item.n}
               className={[
                 'rounded-3xl p-8 border transition',
-                t.feat
+                item.group
+                  ? 'md:col-span-3 bg-white border-[color:var(--teal)]/10 shadow-lg'
+                  : item.feat
                   ? 'bg-gradient-to-br from-[color:var(--dk)] to-[color:var(--deep)] border-transparent text-white'
                   : 'bg-white border-black/5 text-[color:var(--txt)] hover:shadow-xl hover:shadow-black/5'
               ].join(' ')}
             >
-              <div className={t.feat ? 'text-[#C9A24A]' : 'text-[color:var(--teal)]'}>★★★★★</div>
-              <p className={['mt-4 leading-relaxed', t.feat ? 'text-white/75' : 'text-[color:var(--muted)]'].join(' ')}>
-                {t.q}
-              </p>
-              <div className="mt-6 font-bold">{t.n}</div>
-              <div className={t.feat ? 'text-white/50 text-sm' : 'text-[color:var(--muted)] text-sm'}>{t.l}</div>
+              {item.group ? (
+                <>
+                  <div className="text-[color:var(--teal)] uppercase tracking-[0.2em] font-bold text-sm">
+                    {item.title}
+                  </div>
+                  <div className="mt-6 space-y-4 text-[color:var(--muted)] text-base leading-relaxed">
+                    {item.quotes.map((quote, idx) => (
+                      <p key={idx} className="text-[color:var(--dk)]">
+                        {quote}
+                      </p>
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className={item.feat ? 'text-[#C9A24A]' : 'text-[color:var(--teal)]'}>★★★★★</div>
+                  <p className={['mt-4 leading-relaxed', item.feat ? 'text-white/75' : 'text-[color:var(--muted)]'].join(' ')}>
+                    {item.q}
+                  </p>
+                  <div className="mt-6 font-bold">{item.n}</div>
+                  <div className={item.feat ? 'text-white/50 text-sm' : 'text-[color:var(--muted)] text-sm'}>{item.l}</div>
+                </>
+              )}
             </div>
           ))}
         </div>
