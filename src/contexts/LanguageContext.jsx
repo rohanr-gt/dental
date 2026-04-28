@@ -113,6 +113,7 @@ const translations = {
         t2: '“I dreaded dentists, but here I felt completely at ease. Outstanding quality and value compared to UK prices.”',
         t3: '“My veneers are perfect. I consulted in three countries — the quality here exceeded all of them at a third of the price.”',
         experiencesTitle: 'Patient Experiences',
+        expLocation: 'Real Patient Experiences',
         exp1: 'Got my implants done — feels just like natural teeth.',
         exp2: 'Professional care and smooth experience from start to finish.',
         exp3: 'Completely changed my confidence and quality of life.'

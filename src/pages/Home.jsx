@@ -422,7 +422,7 @@ const Home = () => {
           </p>
         </div>
 
-        <div className="max-w-7xl mx-auto mt-14 grid gap-6 md:grid-cols-3">
+        <div className="max-w-7xl mx-auto mt-14 grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
           {[
             {
               feat: true,
@@ -441,49 +441,26 @@ const Home = () => {
               l: 'Moscow, Russia'
             },
             {
-              group: true,
-              title: t('home.testimonials.experiencesTitle'),
-              quotes: [
-                t('home.testimonials.exp1'),
-                t('home.testimonials.exp2'),
-                t('home.testimonials.exp3')
-              ]
+              q: `${t('home.testimonials.exp1')}\n${t('home.testimonials.exp2')}\n${t('home.testimonials.exp3')}`,
+              n: t('home.testimonials.experiencesTitle'),
+              l: t('home.testimonials.expLocation')
             }
           ].map((item, index) => (
             <div
-              key={item.group ? `group-${index}` : item.n}
+              key={item.n}
               className={[
                 'rounded-3xl p-8 border transition',
-                item.group
-                  ? 'md:col-span-3 bg-white border-[color:var(--teal)]/10 shadow-lg'
-                  : item.feat
+                item.feat
                   ? 'bg-gradient-to-br from-[color:var(--dk)] to-[color:var(--deep)] border-transparent text-white'
                   : 'bg-white border-black/5 text-[color:var(--txt)] hover:shadow-xl hover:shadow-black/5'
               ].join(' ')}
             >
-              {item.group ? (
-                <>
-                  <div className="text-[color:var(--teal)] uppercase tracking-[0.2em] font-bold text-sm">
-                    {item.title}
-                  </div>
-                  <div className="mt-6 space-y-4 text-[color:var(--muted)] text-base leading-relaxed">
-                    {item.quotes.map((quote, idx) => (
-                      <p key={idx} className="text-[color:var(--dk)]">
-                        {quote}
-                      </p>
-                    ))}
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className={item.feat ? 'text-[#C9A24A]' : 'text-[color:var(--teal)]'}>★★★★★</div>
-                  <p className={['mt-4 leading-relaxed', item.feat ? 'text-white/75' : 'text-[color:var(--muted)]'].join(' ')}>
-                    {item.q}
-                  </p>
-                  <div className="mt-6 font-bold">{item.n}</div>
-                  <div className={item.feat ? 'text-white/50 text-sm' : 'text-[color:var(--muted)] text-sm'}>{item.l}</div>
-                </>
-              )}
+              <div className={item.feat ? 'text-[#C9A24A]' : 'text-[color:var(--teal)]'}>★★★★★</div>
+              <p className={['mt-4 leading-relaxed whitespace-pre-wrap', item.feat ? 'text-white/75' : 'text-[color:var(--muted)]'].join(' ')}>
+                {item.q}
+              </p>
+              <div className="mt-6 font-bold">{item.n}</div>
+              <div className={item.feat ? 'text-white/50 text-sm' : 'text-[color:var(--muted)] text-sm'}>{item.l}</div>
             </div>
           ))}
         </div>
